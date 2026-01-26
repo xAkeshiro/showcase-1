@@ -47,10 +47,9 @@ export function Media() {
           {mediaCategories.map((cat) => {
             const Icon = cat.icon;
             return (
-              <a
+              <div
                 key={cat.id}
-                href={`/media/${cat.id}`}
-                className="group relative bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#333] transition-colors p-8 text-center"
+                className="group relative bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#333] transition-colors p-8 text-center cursor-pointer"
               >
                 {/* Icon */}
                 <div className="flex justify-center mb-6">
@@ -76,7 +75,7 @@ export function Media() {
 
                 {/* Corner frame */}
                 <CornerFrame />
-              </a>
+              </div>
             );
           })}
         </div>

@@ -67,13 +67,12 @@ export function News() {
             </h2>
           </div>
 
-          <a
-            href="/news"
+          <button
             className="font-mono text-[10px] text-[#666] hover:text-white tracking-wider transition-colors flex items-center gap-2"
           >
             READ MORE
             <span>→</span>
-          </a>
+          </button>
         </div>
 
         {/* Category Tabs */}
@@ -98,10 +97,9 @@ export function News() {
         {/* News List */}
         <div className="space-y-0">
           {newsItems.map((item) => (
-            <a
+            <div
               key={item.id}
-              href={`/news/${item.id}`}
-              className="group flex items-start gap-6 py-6 border-b border-[#1a1a1a] hover:bg-[#0a0a0a] transition-colors -mx-4 px-4"
+              className="group flex items-start gap-6 py-6 border-b border-[#1a1a1a] hover:bg-[#0a0a0a] transition-colors -mx-4 px-4 cursor-pointer"
             >
               {/* Thumbnail Placeholder */}
               <div className="relative w-32 h-20 flex-shrink-0 overflow-hidden bg-[#111] border border-[#222]">
@@ -132,7 +130,7 @@ export function News() {
               <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center text-[#333] group-hover:text-white transition-colors">
                 →
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>

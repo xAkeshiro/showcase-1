@@ -44,10 +44,9 @@ export function World() {
         {/* World Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {worldItems.map((item) => (
-            <a
+            <div
               key={item.id}
-              href={`/world/${item.id}`}
-              className="group relative aspect-[4/3] overflow-hidden"
+              className="group relative aspect-[4/3] overflow-hidden cursor-pointer"
             >
               {/* Background */}
               <div
@@ -77,7 +76,7 @@ export function World() {
 
               {/* Corner frame */}
               <CornerFrame />
-            </a>
+            </div>
           ))}
         </div>
       </div>
