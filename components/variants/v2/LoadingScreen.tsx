@@ -197,6 +197,18 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             <div className="w-8 h-[1px] bg-[#333]" />
           </motion.div>
 
+          {/* Bottom left - services tagline */}
+          <motion.div
+            className="absolute bottom-8 left-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            <span className="font-mono text-[9px] text-[#333] tracking-wider">
+              DESIGN + DEVELOPMENT + MOTION
+            </span>
+          </motion.div>
+
           {/* Swipe indicator on complete */}
           {phase === 'complete' && (
             <motion.div
