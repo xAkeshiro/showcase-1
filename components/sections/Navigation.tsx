@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Layers } from 'lucide-react';
+import Link from 'next/link';
 
 const navItems = [
   { en: 'HOME', jp: 'ホーム', href: '#hero' },
@@ -67,6 +68,16 @@ export function Navigation() {
 
           {/* Right side */}
           <div className="flex items-center gap-4">
+            {/* Variant Link */}
+            <Link
+              href="/v2"
+              className="hidden sm:flex items-center gap-1.5 font-mono text-[9px] text-[#555] hover:text-white tracking-wider transition-colors"
+              title="View Variant Design"
+            >
+              <Layers size={12} />
+              V2
+            </Link>
+
             {/* Contact CTA */}
             <a
               href="#contact"
@@ -121,6 +132,14 @@ export function Navigation() {
           >
             GET IN TOUCH
           </a>
+          <Link
+            href="/v2"
+            onClick={() => setMobileMenuOpen(false)}
+            className="mt-2 font-mono text-xs text-[#555] hover:text-white tracking-wider flex items-center gap-2"
+          >
+            <Layers size={14} />
+            VIEW VARIANT
+          </Link>
         </div>
       </div>
     </>
