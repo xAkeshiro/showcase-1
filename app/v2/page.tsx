@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { LoadingScreen } from '@/components/LoadingScreen';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LoadingScreenV2 } from '@/components/variants/v2/LoadingScreen';
 import { VariantNavigation } from '@/components/variants/v2/Navigation';
 import { VariantHero } from '@/components/variants/v2/Hero';
 import { VariantWork } from '@/components/variants/v2/Work';
@@ -18,13 +18,22 @@ export default function VariantPage() {
 
   return (
     <>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isLoading && (
-          <LoadingScreen onComplete={handleLoadComplete} minimumLoadTime={2500} />
+          <LoadingScreenV2 onComplete={handleLoadComplete} minimumLoadTime={2500} />
         )}
       </AnimatePresence>
 
-      <div className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}>
+      {/* Content reveals from the right as loader swipes left */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={isLoading ? { opacity: 0, x: 50 } : { opacity: 1, x: 0 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.2,
+          ease: [0.76, 0, 0.24, 1],
+        }}
+      >
         <VariantNavigation />
         <main>
           <VariantHero />
@@ -32,7 +41,7 @@ export default function VariantPage() {
           <VariantAbout />
           <VariantContact />
         </main>
-      </div>
+      </motion.div>
     </>
   );
 }
