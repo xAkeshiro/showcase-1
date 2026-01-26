@@ -14,10 +14,10 @@ export function Hero() {
       {/* Background Video Placeholder */}
       <div className="absolute inset-0">
         <VideoPlaceholder
-          prompt="Cinematic loop: Slow pan across Rhodes Island landship at dawn/dusk. Atmospheric fog, distant city lights, subtle particle effects (dust/originium). Moody, mysterious atmosphere with dramatic lighting."
+          prompt="Abstract showreel loop: Morphing 3D shapes, typography animations, UI transitions, and motion design snippets. Monochromatic with subtle color accents. Slow, hypnotic pace. Premium studio vibe."
           aspectRatio="video"
           theme="dark"
-          label="HERO BACKGROUND"
+          label="SHOWREEL BACKGROUND"
           className="w-full h-full"
           showPlayIcon={false}
         />
@@ -60,7 +60,7 @@ export function Hero() {
         >
           <div className="w-8 h-[1px] bg-gradient-to-r from-transparent to-[#444]" />
           <span className="font-mono text-[10px] text-[#555] tracking-[0.4em]">
-            RHODES ISLAND PHARMACEUTICAL
+            CREATIVE STUDIO
           </span>
           <div className="w-8 h-[1px] bg-gradient-to-l from-transparent to-[#444]" />
         </motion.div>
@@ -73,7 +73,7 @@ export function Hero() {
           transition={{ delay: 0.5, duration: 0.8 }}
         >
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-white tracking-[0.2em]">
-            <TextReveal text="ARKNIGHTS" delay={0.6} letterDelay={0.05} />
+            <TextReveal text="KUROSEI" delay={0.6} letterDelay={0.07} />
           </h1>
 
           {/* Japanese Subtitle */}
@@ -83,7 +83,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
           >
-            明日方舟
+            黒星 — Black Star
           </motion.p>
         </motion.div>
 
@@ -95,10 +95,10 @@ export function Hero() {
           transition={{ delay: 1.5, duration: 0.8 }}
         >
           <p className="font-body text-sm md:text-base text-[#888] tracking-wide leading-relaxed">
-            In a world ravaged by a deadly infection, join Rhodes Island in the fight for survival.
+            Design. Development. Motion. We craft digital experiences that leave a lasting impression.
           </p>
           <p className="font-body-jp text-xs text-[#555] mt-2">
-            感染症が猛威を振るう世界で、ロドスと共に生存のために戦え。
+            デザイン・開発・モーション — 印象に残るデジタル体験を創造します
           </p>
         </motion.div>
 
@@ -110,10 +110,10 @@ export function Hero() {
           transition={{ delay: 1.8, duration: 0.8 }}
         >
           <MinimalButton variant="primary" className="min-w-[160px]">
-            EXPLORE
+            VIEW WORK
           </MinimalButton>
           <MinimalButton variant="secondary" className="min-w-[160px]">
-            WATCH PV
+            GET IN TOUCH
           </MinimalButton>
         </motion.div>
 
@@ -146,7 +146,7 @@ export function Hero() {
       >
         <div className="w-[1px] h-24 bg-gradient-to-b from-transparent via-[#333] to-transparent" />
         <span className="font-mono text-[9px] text-[#333] tracking-wider [writing-mode:vertical-lr]">
-          TERRA
+          DESIGN
         </span>
         <div className="w-[1px] h-24 bg-gradient-to-b from-transparent via-[#333] to-transparent" />
       </motion.div>
@@ -159,7 +159,7 @@ export function Hero() {
       >
         <div className="w-[1px] h-24 bg-gradient-to-b from-transparent via-[#333] to-transparent" />
         <span className="font-mono text-[9px] text-[#333] tracking-wider [writing-mode:vertical-lr]">
-          2026
+          DEVELOP
         </span>
         <div className="w-[1px] h-24 bg-gradient-to-b from-transparent via-[#333] to-transparent" />
       </motion.div>
@@ -167,14 +167,16 @@ export function Hero() {
       {/* Corner Frame */}
       <CornerFrame className="m-4" />
 
-      {/* Bottom URL decoration */}
+      {/* Bottom decorations */}
       <motion.div
         className="absolute bottom-6 left-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 0.5 }}
       >
-        <URLDisplay />
+        <span className="font-mono text-[9px] text-[#333] tracking-wider">
+          KUROSEI.STUDIO
+        </span>
       </motion.div>
 
       {/* Section indicator */}

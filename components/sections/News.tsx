@@ -9,56 +9,65 @@ import { CornerFrame } from '@/components/ui/CornerFrame';
 import { VideoPlaceholder } from '@/components/ui/VideoPlaceholder';
 import { FadeInUp, FadeInLeft, FadeInRight, StaggerChildren } from '@/components/ui/ScrollAnimations';
 
-const newsCategories = ['最新', '公告', '活動', '新聞'];
+const workCategories = ['ALL', 'WEB', 'MOTION', 'BRAND'];
 
-const newsItems = [
+const workItems = [
   {
     id: 1,
-    category: '公告',
-    categoryEn: 'NOTICE',
+    category: 'WEB',
+    categoryJp: 'ウェブ',
     date: new Date('2026-01-24'),
-    title: 'Version 2.5 Maintenance Notice',
-    titleJp: 'バージョン2.5メンテナンスのお知らせ',
+    title: 'E-Commerce Platform Redesign',
+    client: 'NOVA RETAIL',
+    description: 'Complete UX overhaul and frontend development',
   },
   {
     id: 2,
-    category: '活動',
-    categoryEn: 'EVENT',
-    date: new Date('2026-01-22'),
-    title: 'New Side Story Event: Twilight of Wolumonde',
-    titleJp: 'サイドストーリー「ウォルモンドの薄暮」開催',
+    category: 'MOTION',
+    categoryJp: 'モーション',
+    date: new Date('2026-01-18'),
+    title: 'Brand Identity Animation System',
+    client: 'APEX STUDIOS',
+    description: 'Logo animations and motion guidelines',
   },
   {
     id: 3,
-    category: '新聞',
-    categoryEn: 'NEWS',
-    date: new Date('2026-01-20'),
-    title: 'New Operator Announcement: Logos',
-    titleJp: '新オペレーター「ロゴス」実装決定',
+    category: 'BRAND',
+    categoryJp: 'ブランド',
+    date: new Date('2026-01-12'),
+    title: 'Visual Identity & Web Presence',
+    client: 'HORIZON TECH',
+    description: 'Full brand system and website',
   },
   {
     id: 4,
-    category: '公告',
-    categoryEn: 'NOTICE',
-    date: new Date('2026-01-18'),
-    title: 'Rhodes Island Supplies: Limited-Time Packs',
-    titleJp: 'ロドス島補給：期間限定パック販売',
+    category: 'WEB',
+    categoryJp: 'ウェブ',
+    date: new Date('2026-01-05'),
+    title: 'Interactive Portfolio Platform',
+    client: 'PERSONAL PROJECT',
+    description: 'Experimental web experience',
   },
   {
     id: 5,
-    category: '活動',
-    categoryEn: 'EVENT',
-    date: new Date('2026-01-15'),
-    title: 'Integrated Strategies #5 Now Available',
-    titleJp: '統合戦略#5「荒れ野の荒涼」開放',
+    category: 'MOTION',
+    categoryJp: 'モーション',
+    date: new Date('2025-12-20'),
+    title: 'Product Launch Campaign',
+    client: 'STELLAR AUDIO',
+    description: 'Promotional video and social assets',
   },
 ];
 
 export function News() {
   const [activeTab, setActiveTab] = useState(0);
 
+  const filteredWork = activeTab === 0
+    ? workItems
+    : workItems.filter(item => item.category === workCategories[activeTab]);
+
   return (
-    <section id="news" className="relative py-24 bg-white overflow-hidden">
+    <section id="work" className="relative py-24 bg-white overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div
@@ -78,18 +87,18 @@ export function News() {
         <FadeInUp className="flex items-center justify-between mb-12">
           <div>
             <span className="font-mono text-[10px] text-[#999] tracking-wider block mb-2">
-              BREAKING NEWS
+              LATEST PROJECTS
             </span>
             <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] text-black tracking-[0.15em]">
-              INFORMATION
+              RECENT WORK
             </h2>
             <p className="font-body-jp text-sm text-[#666] mt-1">
-              お知らせ
+              最近の作品
             </p>
           </div>
 
           <button className="font-mono text-[10px] text-[#999] hover:text-black tracking-wider transition-colors flex items-center gap-2">
-            READ MORE
+            VIEW ALL
             <span>→</span>
           </button>
         </FadeInUp>
@@ -100,32 +109,32 @@ export function News() {
           <FadeInLeft className="lg:col-span-1">
             <div className="relative">
               <VideoPlaceholder
-                prompt="News highlight reel: Quick cuts of recent in-game events, new operators, and updates. Dynamic motion graphics with Arknights UI elements. Text overlays with dates and event names."
+                prompt="Work highlight reel: Quick showcase of recent projects. Website scrolls, motion graphics clips, brand reveals. Sleek transitions with project titles appearing. Premium studio quality."
                 aspectRatio="portrait"
                 theme="light"
-                label="NEWS HIGHLIGHT"
+                label="2026 SHOWREEL"
                 className="w-full"
               />
             </div>
           </FadeInLeft>
 
-          {/* News List */}
+          {/* Work List */}
           <FadeInRight className="lg:col-span-2">
             {/* Category Tabs */}
             <div className="flex gap-8 mb-6 border-b border-[#e0e0e0]">
-              {newsCategories.map((tab, i) => (
+              {workCategories.map((tab, i) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(i)}
                   className={cn(
-                    'pb-3 font-body-jp text-sm tracking-wider transition-colors relative',
+                    'pb-3 font-display text-xs tracking-wider transition-colors relative',
                     i === activeTab ? 'text-black' : 'text-[#999] hover:text-[#666]'
                   )}
                 >
                   {tab}
                   {i === activeTab && (
                     <motion.div
-                      layoutId="activeNewsTab"
+                      layoutId="activeWorkTab"
                       className="absolute bottom-0 left-0 right-0 h-[2px] bg-black"
                     />
                   )}
@@ -133,9 +142,9 @@ export function News() {
               ))}
             </div>
 
-            {/* News List */}
+            {/* Work List */}
             <StaggerChildren className="space-y-0">
-              {newsItems.map((item, index) => (
+              {filteredWork.map((item, index) => (
                 <motion.div
                   key={item.id}
                   variants={{
@@ -148,7 +157,7 @@ export function News() {
                   {/* Thumbnail Placeholder */}
                   <div className="relative w-24 h-16 flex-shrink-0 overflow-hidden bg-[#f5f5f5] border border-[#e0e0e0]">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="font-mono text-[9px] text-[#bbb]">{item.categoryEn}</span>
+                      <span className="font-mono text-[9px] text-[#bbb]">{item.category}</span>
                     </div>
                     <CornerFrame theme="light" />
                   </div>
@@ -157,7 +166,7 @@ export function News() {
                   <div className="flex-1 min-w-0">
                     {/* Category & Date */}
                     <div className="flex items-center gap-3 mb-1.5">
-                      <span className="font-body-jp text-[11px] text-[#666] px-2 py-0.5 bg-[#f0f0f0]">
+                      <span className="font-mono text-[10px] text-[#666] px-2 py-0.5 bg-[#f0f0f0]">
                         {item.category}
                       </span>
                       <span className="font-mono text-[10px] text-[#999] tracking-wider">
@@ -165,10 +174,13 @@ export function News() {
                       </span>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-body text-sm text-[#333] group-hover:text-black transition-colors line-clamp-2">
+                    {/* Title & Client */}
+                    <h3 className="font-body text-sm text-[#333] group-hover:text-black transition-colors">
                       {item.title}
                     </h3>
+                    <p className="font-mono text-[10px] text-[#999] mt-0.5">
+                      {item.client}
+                    </p>
                   </div>
 
                   {/* Arrow */}

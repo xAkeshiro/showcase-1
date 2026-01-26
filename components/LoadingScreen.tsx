@@ -76,7 +76,7 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
             >
               <div className="w-2 h-2 bg-white" />
               <span className="font-mono text-[10px] text-[#444] tracking-[0.3em]">
-                SYSTEM INITIALIZING
+                INITIALIZING
               </span>
             </motion.div>
           </div>
@@ -88,42 +88,42 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
               transition={{ delay: 0.3, duration: 0.5 }}
               className="font-mono text-[10px] text-[#333] tracking-wider"
             >
-              RHODES ISLAND
+              CREATIVE STUDIO
             </motion.div>
           </div>
 
           {/* Main content */}
           <div className="relative z-10 flex flex-col items-center">
-            {/* Logo/Icon */}
+            {/* Logo/Icon - Star shape for KUROSEI */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
               transition={{ duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
               className="mb-12"
             >
-              <div className="relative w-20 h-20">
-                {/* Outer ring */}
+              <div className="relative w-24 h-24">
+                {/* Outer rotating ring */}
                 <motion.div
                   className="absolute inset-0 border border-[#333]"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                 />
-                {/* Inner square */}
+                {/* Inner rotating square */}
                 <motion.div
-                  className="absolute inset-3 border border-[#444]"
-                  animate={{ rotate: -360 }}
+                  className="absolute inset-4 border border-[#444] rotate-45"
+                  animate={{ rotate: [45, 405] }}
                   transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
                 />
-                {/* Center */}
+                {/* Star center */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.span
-                    className="font-display text-xl text-white tracking-[0.2em]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5, duration: 0.5 }}
+                    className="text-2xl"
                   >
-                    AK
-                  </motion.span>
+                    ★
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -136,17 +136,17 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               <motion.h1
-                className="font-display text-2xl md:text-3xl text-white tracking-[0.3em] overflow-hidden"
+                className="font-display text-3xl md:text-4xl text-white tracking-[0.3em] overflow-hidden"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                {'ARKNIGHTS'.split('').map((char, i) => (
+                {'KUROSEI'.split('').map((char, i) => (
                   <motion.span
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + i * 0.05, duration: 0.4 }}
+                    transition={{ delay: 0.6 + i * 0.07, duration: 0.4 }}
                     className="inline-block"
                   >
                     {char}
@@ -154,12 +154,12 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
                 ))}
               </motion.h1>
               <motion.p
-                className="font-body-jp text-sm text-[#666] mt-2 tracking-wider"
+                className="font-body-jp text-sm text-[#666] mt-3 tracking-wider"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
               >
-                明日方舟
+                黒星 — Black Star
               </motion.p>
             </motion.div>
 
@@ -172,7 +172,7 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
             >
               <div className="flex justify-between mb-2">
                 <span className="font-mono text-[10px] text-[#666] tracking-[0.2em]">
-                  {phase === 'complete' ? 'COMPLETE' : 'LOADING'}
+                  {phase === 'complete' ? 'READY' : 'LOADING'}
                 </span>
                 <span className="font-mono text-[10px] text-white tabular-nums">
                   {Math.round(progress)}%
@@ -188,10 +188,10 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
               </div>
               <div className="flex justify-between mt-2">
                 <span className="font-mono text-[9px] text-[#333] tracking-wider">
-                  SYS.BOOT
+                  STUDIO.INIT
                 </span>
                 <span className="font-mono text-[9px] text-[#333] tracking-wider">
-                  v2.0.26
+                  v1.0
                 </span>
               </div>
             </motion.div>
@@ -208,7 +208,7 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
                 animate={{ opacity: [0.3, 1, 0.3] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                {phase === 'complete' ? 'ENTERING SYSTEM...' : 'ESTABLISHING CONNECTION...'}
+                {phase === 'complete' ? 'WELCOME TO KUROSEI...' : 'PREPARING EXPERIENCE...'}
               </motion.p>
             </motion.div>
           </div>
@@ -221,7 +221,7 @@ export function LoadingScreen({ onComplete, minimumLoadTime = 2500 }: LoadingScr
               transition={{ delay: 1, duration: 0.5 }}
               className="font-mono text-[9px] text-[#333] tracking-wider"
             >
-              HTTPS://ARKNIGHTS.GLOBAL/
+              DESIGN + DEVELOPMENT + MOTION
             </motion.div>
           </div>
 

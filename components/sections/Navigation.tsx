@@ -5,11 +5,11 @@ import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
 
 const navItems = [
-  { en: 'INDEX', jp: '首页', href: '#hero' },
-  { en: 'INFORMATION', jp: '情報', href: '#news' },
-  { en: 'OPERATOR', jp: '干员', href: '#characters' },
-  { en: 'WORLD', jp: '設定', href: '#world' },
-  { en: 'MEDIA', jp: 'メディア', href: '#media' },
+  { en: 'HOME', jp: 'ホーム', href: '#hero' },
+  { en: 'WORK', jp: '作品', href: '#work' },
+  { en: 'PROJECTS', jp: 'プロジェクト', href: '#projects' },
+  { en: 'SERVICES', jp: 'サービス', href: '#services' },
+  { en: 'ARCHIVE', jp: 'アーカイブ', href: '#archive' },
 ];
 
 export function Navigation() {
@@ -32,14 +32,19 @@ export function Navigation() {
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 border border-[#333] flex items-center justify-center">
-              <span className="font-display text-xs text-white">AK</span>
+          <a href="#hero" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 border border-[#333] group-hover:border-[#555] flex items-center justify-center transition-colors">
+              <span className="text-sm">★</span>
             </div>
-            <span className="font-display text-xs text-white tracking-[0.2em] hidden sm:block">
-              ARKNIGHTS
-            </span>
-          </div>
+            <div className="hidden sm:block">
+              <span className="font-display text-xs text-white tracking-[0.2em] block">
+                KUROSEI
+              </span>
+              <span className="font-mono text-[8px] text-[#555] tracking-wider">
+                CREATIVE STUDIO
+              </span>
+            </div>
+          </a>
 
           {/* Desktop Nav Links */}
           <ul className="hidden md:flex items-center gap-10">
@@ -62,10 +67,13 @@ export function Navigation() {
 
           {/* Right side */}
           <div className="flex items-center gap-4">
-            {/* Language Toggle */}
-            <button className="font-mono text-[10px] text-[#666] hover:text-white tracking-wider transition-colors">
-              EN / JP
-            </button>
+            {/* Contact CTA */}
+            <a
+              href="#contact"
+              className="hidden sm:block font-mono text-[10px] text-[#888] hover:text-white tracking-wider transition-colors border border-[#333] hover:border-[#555] px-3 py-1.5"
+            >
+              CONTACT
+            </a>
 
             {/* Mobile Menu Button */}
             <button
@@ -106,6 +114,13 @@ export function Navigation() {
               </span>
             </a>
           ))}
+          <a
+            href="#contact"
+            onClick={() => setMobileMenuOpen(false)}
+            className="mt-4 font-mono text-sm text-white tracking-wider border border-[#333] px-6 py-2"
+          >
+            GET IN TOUCH
+          </a>
         </div>
       </div>
     </>

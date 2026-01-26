@@ -8,58 +8,58 @@ import { SectionNumber } from '@/components/ui/SectionNumber';
 import { VideoPlaceholder } from '@/components/ui/VideoPlaceholder';
 import { FadeInUp, FadeInLeft, FadeInRight } from '@/components/ui/ScrollAnimations';
 
-const characters = [
+const projects = [
   {
     id: 1,
-    codename: "KAL'TSIT",
-    nameJp: '凯尔希',
-    class: 'MEDIC',
-    faction: 'RHODES ISLAND',
-    voiceActor: '日笠阳子',
-    description: 'One of the highest administrators of Rhodes Island, Kal\'tsit has access to a lot of information that others may not. Despite her somewhat cold demeanor, she truly cares for the well-being of all operators.',
-    color: '#1a4a5a',
-    videoPrompt: 'Character showcase: Kal\'tsit in battle stance with Mon3tr emerging from shadows. Medical originium particles floating. Cool teal/cyan lighting. Subtle breathing animation.',
+    name: 'NOVA RETAIL',
+    nameJp: 'ノヴァ・リテール',
+    type: 'WEB DEVELOPMENT',
+    category: 'E-COMMERCE',
+    year: '2026',
+    description: 'Complete redesign and development of a premium e-commerce platform. Built with Next.js, featuring dynamic product filtering, seamless checkout flow, and integrated CMS for content management.',
+    videoPrompt: 'Project showcase: E-commerce website scroll-through. Product pages, cart animations, checkout flow. Clean UI with smooth transitions. Desktop and mobile views.',
+    tech: ['NEXT.JS', 'TAILWIND', 'SHOPIFY'],
   },
   {
     id: 2,
-    codename: 'AMIYA',
-    nameJp: '阿米娅',
-    class: 'CASTER',
-    faction: 'RHODES ISLAND',
-    voiceActor: '黒沢ともよ',
-    description: 'The public leader of Rhodes Island. Amiya has shouldered many heavy responsibilities despite her young age, and leads the organization with unwavering determination.',
-    color: '#3a2a5a',
-    videoPrompt: 'Character showcase: Amiya with arts charging, chimera form energy wisps. Purple/violet magical aura. Determined expression. Subtle hair and cloak movement.',
+    name: 'APEX STUDIOS',
+    nameJp: 'エーペックス・スタジオ',
+    type: 'MOTION DESIGN',
+    category: 'BRAND ANIMATION',
+    year: '2026',
+    description: 'Comprehensive motion identity system for a creative agency. Logo animations, loading sequences, social media templates, and motion guidelines documentation.',
+    videoPrompt: 'Motion reel: Logo reveal animation, kinetic typography, loading animations, social media motion templates. Slick, modern, dynamic energy.',
+    tech: ['AFTER EFFECTS', 'CINEMA 4D', 'LOTTIE'],
   },
   {
     id: 3,
-    codename: 'DOCTOR',
-    nameJp: 'ドクター',
-    class: 'UNKNOWN',
-    faction: 'RHODES ISLAND',
-    voiceActor: '—',
-    description: 'The tactical advisor of Rhodes Island. Having lost their memories, the Doctor now works alongside Amiya and the other operators to fight against catastrophes and the infection.',
-    color: '#2a2a3a',
-    videoPrompt: 'Character showcase: Doctor silhouette with tactical holographic displays. Data streams and command interface elements. Mysterious, shadowy atmosphere.',
+    name: 'HORIZON TECH',
+    nameJp: 'ホライズン・テック',
+    type: 'BRAND + WEB',
+    category: 'FULL IDENTITY',
+    year: '2026',
+    description: 'Complete brand identity and web presence for a tech startup. Logo design, color system, typography, business collateral, and a fully responsive marketing website.',
+    videoPrompt: 'Brand reveal: Logo construction animation, color palette reveal, typography showcase, stationery mockups, website walkthrough. Premium brand presentation.',
+    tech: ['FIGMA', 'REACT', 'FRAMER MOTION'],
   },
   {
     id: 4,
-    codename: 'W',
-    nameJp: 'W',
-    class: 'SNIPER',
-    faction: 'BABEL / RHODES ISLAND',
-    voiceActor: '長谷川明子',
-    description: 'A Sarkaz mercenary with a complicated past. Known for her explosive personality and even more explosive weaponry. Her true motivations remain unclear.',
-    color: '#4a2a2a',
-    videoPrompt: 'Character showcase: W with explosives and detonator, mischievous grin. Fire and ember particles. Red/orange explosive lighting. Dynamic pose with weapons.',
+    name: 'STELLAR AUDIO',
+    nameJp: 'ステラ・オーディオ',
+    type: 'CAMPAIGN',
+    category: 'PRODUCT LAUNCH',
+    year: '2025',
+    description: 'Product launch campaign for premium audio equipment. Hero video production, social media assets, landing page design, and promotional motion graphics.',
+    videoPrompt: 'Product video: Sleek audio equipment reveal, macro shots, lifestyle scenes, feature highlights with motion graphics overlays. Cinematic quality.',
+    tech: ['PREMIERE PRO', 'AFTER EFFECTS', 'WEBFLOW'],
   },
 ];
 
 export function Characters() {
-  const [activeChar, setActiveChar] = useState(0);
+  const [activeProject, setActiveProject] = useState(0);
 
   return (
-    <section id="characters" className="relative min-h-screen bg-black py-24 overflow-hidden">
+    <section id="projects" className="relative min-h-screen bg-black py-24 overflow-hidden">
       {/* Animated background grid */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -90,38 +90,38 @@ export function Characters() {
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            RHODES ISLAND ://
+            KUROSEI ://
           </motion.span>
           <div className="flex-1 h-[1px] bg-[#222]" />
         </div>
 
         <div className="flex items-baseline gap-4">
           <span className="font-mono text-[10px] text-[#444] tracking-wider">
-            PROFILE
+            CASE STUDY
           </span>
           <AnimatePresence mode="wait">
             <motion.h2
-              key={characters[activeChar].codename}
+              key={projects[activeProject].name}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
               className="font-display text-[clamp(1.75rem,4vw,3rem)] text-white tracking-[0.15em]"
             >
-              {characters[activeChar].codename}
+              {projects[activeProject].name}
             </motion.h2>
           </AnimatePresence>
         </div>
       </FadeInUp>
 
-      {/* Character Display */}
+      {/* Project Display */}
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Character Art / Video Placeholder */}
-          <FadeInLeft className="relative aspect-[3/4] max-w-md mx-auto w-full">
+          {/* Project Video Placeholder */}
+          <FadeInLeft className="relative aspect-[4/3] w-full">
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeChar}
+                key={activeProject}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.05 }}
@@ -129,24 +129,16 @@ export function Characters() {
                 className="relative w-full h-full"
               >
                 <VideoPlaceholder
-                  prompt={characters[activeChar].videoPrompt}
-                  aspectRatio="portrait"
+                  prompt={projects[activeProject].videoPrompt}
+                  aspectRatio="video"
                   theme="dark"
-                  label="OPERATOR SHOWCASE"
+                  label="PROJECT PREVIEW"
                   className="w-full h-full"
-                />
-
-                {/* Colored overlay for visual interest */}
-                <div
-                  className="absolute inset-0 mix-blend-overlay opacity-30 pointer-events-none"
-                  style={{
-                    background: `linear-gradient(135deg, ${characters[activeChar].color} 0%, transparent 100%)`
-                  }}
                 />
               </motion.div>
             </AnimatePresence>
 
-            {/* Character name overlay */}
+            {/* Project name overlay */}
             <motion.div
               className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent"
               initial={{ opacity: 0, y: 20 }}
@@ -154,17 +146,17 @@ export function Characters() {
               transition={{ delay: 0.3 }}
             >
               <p className="font-display text-xl text-white tracking-wider">
-                {characters[activeChar].codename}
+                {projects[activeProject].name}
               </p>
               <p className="font-body-jp text-sm text-[#888]">
-                {characters[activeChar].nameJp}
+                {projects[activeProject].nameJp}
               </p>
             </motion.div>
           </FadeInLeft>
 
-          {/* Character Info */}
+          {/* Project Info */}
           <FadeInRight className="space-y-8">
-            {/* Faction badge */}
+            {/* Type badge */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -179,14 +171,14 @@ export function Characters() {
                   transition={{ duration: 2, repeat: Infinity }}
                 />
                 <span className="font-mono text-[10px] text-[#888] tracking-[0.2em]">
-                  {characters[activeChar].faction}
+                  {projects[activeProject].type}
                 </span>
               </div>
             </motion.div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-6">
-              {/* Class */}
+              {/* Category */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -194,14 +186,14 @@ export function Characters() {
                 transition={{ delay: 0.3 }}
               >
                 <span className="font-mono text-[10px] text-[#444] tracking-wider block mb-2">
-                  CLASS
+                  CATEGORY
                 </span>
                 <span className="font-display text-sm text-white tracking-wider">
-                  {characters[activeChar].class}
+                  {projects[activeProject].category}
                 </span>
               </motion.div>
 
-              {/* Voice Actor */}
+              {/* Year */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -209,10 +201,10 @@ export function Characters() {
                 transition={{ delay: 0.4 }}
               >
                 <span className="font-mono text-[10px] text-[#444] tracking-wider block mb-2">
-                  CHARACTER VOICE
+                  YEAR
                 </span>
-                <span className="font-body-jp text-sm text-[#888]">
-                  {characters[activeChar].voiceActor}
+                <span className="font-display text-sm text-[#888]">
+                  {projects[activeProject].year}
                 </span>
               </motion.div>
             </div>
@@ -225,30 +217,52 @@ export function Characters() {
               transition={{ delay: 0.5 }}
             >
               <span className="font-mono text-[10px] text-[#444] tracking-wider block mb-3">
-                PROFILE
+                OVERVIEW
               </span>
               <AnimatePresence mode="wait">
                 <motion.p
-                  key={activeChar}
+                  key={activeProject}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="font-body text-sm text-[#888] leading-relaxed"
                 >
-                  {characters[activeChar].description}
+                  {projects[activeProject].description}
                 </motion.p>
               </AnimatePresence>
             </motion.div>
 
-            {/* View More link */}
-            <motion.button
+            {/* Tech Stack */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6 }}
+            >
+              <span className="font-mono text-[10px] text-[#444] tracking-wider block mb-3">
+                TECH / TOOLS
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {projects[activeProject].tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="font-mono text-[9px] text-[#666] px-2 py-1 border border-[#222]"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* View Case Study link */}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.7 }}
               className="inline-flex items-center gap-3 font-mono text-[10px] text-[#666] hover:text-white tracking-wider transition-colors group"
             >
-              <span>VIEW FULL PROFILE</span>
+              <span>VIEW CASE STUDY</span>
               <motion.span
                 className="text-lg"
                 animate={{ x: [0, 5, 0] }}
@@ -260,36 +274,36 @@ export function Characters() {
           </FadeInRight>
         </div>
 
-        {/* Character Selector */}
+        {/* Project Selector */}
         <FadeInUp delay={0.4} className="mt-20">
           <div className="flex flex-col items-center">
             <span className="font-mono text-[10px] text-[#444] tracking-wider mb-4">
-              SELECT OPERATOR
+              SELECT PROJECT
             </span>
-            <div className="flex justify-center gap-3">
-              {characters.map((char, index) => (
+            <div className="flex justify-center gap-3 flex-wrap">
+              {projects.map((project, index) => (
                 <motion.button
-                  key={char.id}
-                  onClick={() => setActiveChar(index)}
+                  key={project.id}
+                  onClick={() => setActiveProject(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className={cn(
-                    'relative w-20 h-20 overflow-hidden transition-all duration-300',
-                    'border flex flex-col items-center justify-center gap-1',
-                    index === activeChar
+                    'relative px-4 py-3 overflow-hidden transition-all duration-300',
+                    'border flex flex-col items-center gap-1',
+                    index === activeProject
                       ? 'border-white bg-white/5'
                       : 'border-[#222] opacity-50 hover:opacity-100 hover:border-[#444]'
                   )}
                 >
-                  <span className="font-display text-xl text-white/70">
-                    {char.codename.charAt(0)}
+                  <span className="font-display text-xs text-white/70 tracking-wider">
+                    {project.name}
                   </span>
                   <span className="font-mono text-[8px] text-[#666] tracking-wider">
-                    {char.class}
+                    {project.type}
                   </span>
-                  {index === activeChar && (
+                  {index === activeProject && (
                     <motion.div
-                      layoutId="activeCharIndicator"
+                      layoutId="activeProjectIndicator"
                       className="absolute bottom-0 left-0 right-0 h-[2px] bg-white"
                     />
                   )}

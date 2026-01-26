@@ -4,39 +4,97 @@ import { motion } from 'framer-motion';
 import { CornerFrame } from '@/components/ui/CornerFrame';
 import { SectionNumber } from '@/components/ui/SectionNumber';
 import { VideoPlaceholder } from '@/components/ui/VideoPlaceholder';
-import { FadeInUp, ScaleIn } from '@/components/ui/ScrollAnimations';
-import { Play, Image as ImageIcon, Music } from 'lucide-react';
+import { FadeInUp, StaggerChildren } from '@/components/ui/ScrollAnimations';
+import { Play, Folder, Calendar, ExternalLink } from 'lucide-react';
 
-const mediaCategories = [
+const archiveYears = ['2026', '2025', '2024', '2023'];
+
+const archiveItems = [
   {
-    id: 'video',
-    icon: Play,
-    titleEn: 'VIDEO',
-    titleJp: 'ムービー',
-    description: 'Promotional videos, trailers, and animated shorts',
-    videoPrompt: 'Preview montage: Quick cuts of PV trailers, anime scenes, and promotional content. High-energy editing with dramatic moments. Cinematic quality.',
+    id: 1,
+    year: '2026',
+    category: 'WEB',
+    title: 'Nova Retail Platform',
+    client: 'NOVA RETAIL',
   },
   {
-    id: 'gallery',
-    icon: ImageIcon,
-    titleEn: 'GALLERY',
-    titleJp: 'ギャラリー',
-    description: 'Official artwork, illustrations, and screenshots',
-    videoPrompt: 'Art showcase: Slow Ken Burns effect on official illustrations. Character art, event CGs, and promotional images. Elegant transitions.',
+    id: 2,
+    year: '2026',
+    category: 'MOTION',
+    title: 'Brand Animation System',
+    client: 'APEX STUDIOS',
   },
   {
-    id: 'music',
-    icon: Music,
-    titleEn: 'MONSTER SIREN',
-    titleJp: 'サントラ',
-    description: 'Original soundtracks and music records',
-    videoPrompt: 'Audio visualizer: Abstract waveforms and frequency bars. Monster Siren Records aesthetic. Pulsing to imaginary music rhythm. Dark with accent lighting.',
+    id: 3,
+    year: '2026',
+    category: 'BRAND',
+    title: 'Complete Visual Identity',
+    client: 'HORIZON TECH',
+  },
+  {
+    id: 4,
+    year: '2025',
+    category: 'CAMPAIGN',
+    title: 'Product Launch Video',
+    client: 'STELLAR AUDIO',
+  },
+  {
+    id: 5,
+    year: '2025',
+    category: 'WEB',
+    title: 'Portfolio Platform',
+    client: 'CREATIVE COLLECTIVE',
+  },
+  {
+    id: 6,
+    year: '2025',
+    category: 'MOTION',
+    title: 'Social Media Package',
+    client: 'URBAN STYLE',
+  },
+  {
+    id: 7,
+    year: '2024',
+    category: 'BRAND',
+    title: 'Restaurant Rebrand',
+    client: 'SUSHI MASTER',
+  },
+  {
+    id: 8,
+    year: '2024',
+    category: 'WEB',
+    title: 'Agency Website',
+    client: 'DESIGNLAB',
+  },
+];
+
+const showreelHighlights = [
+  {
+    id: 'reel-2026',
+    year: '2026',
+    title: 'ANNUAL SHOWREEL',
+    titleJp: '年間ショーリール',
+    videoPrompt: 'Studio showreel 2026: Fast-paced montage of web projects, brand reveals, motion graphics, and development work. Clean cuts, modern typography, professional studio vibe. Ends with KUROSEI logo.',
+  },
+  {
+    id: 'motion-reel',
+    year: '2026',
+    title: 'MOTION REEL',
+    titleJp: 'モーションリール',
+    videoPrompt: 'Motion design compilation: Logo animations, kinetic typography, UI transitions, loading animations, and social media motion. Rhythmic editing synced to music.',
+  },
+  {
+    id: 'web-reel',
+    year: '2026',
+    title: 'WEB REEL',
+    titleJp: 'ウェブリール',
+    videoPrompt: 'Web development showcase: Website scroll-throughs, interaction demonstrations, responsive design transitions, code visualization. Clean, technical aesthetic.',
   },
 ];
 
 export function Media() {
   return (
-    <section id="media" className="relative bg-black py-24 overflow-hidden">
+    <section id="archive" className="relative bg-black py-24 overflow-hidden">
       {/* Animated background */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -52,17 +110,24 @@ export function Media() {
         }}
       />
 
+      {/* Scanning line */}
+      <motion.div
+        className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none"
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+      />
+
       <div className="max-w-7xl mx-auto px-6 relative">
         {/* Section Header */}
         <FadeInUp className="text-center mb-16">
           <span className="font-mono text-[10px] text-[#444] tracking-wider block mb-2">
-            EXPLORE MEDIA
+            PAST WORK
           </span>
           <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] text-white tracking-[0.15em]">
-            MEDIA
+            ARCHIVE
           </h2>
           <p className="font-body-jp text-sm text-[#666] mt-2">
-            泰拉万象
+            アーカイブ
           </p>
           <motion.div
             className="w-12 h-[1px] bg-white/20 mx-auto mt-6"
@@ -73,142 +138,161 @@ export function Media() {
           />
         </FadeInUp>
 
-        {/* Featured Media Video */}
-        <FadeInUp delay={0.2} className="mb-16">
-          <VideoPlaceholder
-            prompt="Epic trailer compilation: Best moments from all Arknights PVs. Operator reveals, story climaxes, animation highlights. Fast-paced editing with music sync. Cinematic black bars."
-            aspectRatio="video"
-            theme="dark"
-            label="FEATURED TRAILER"
-            className="w-full"
-          />
-        </FadeInUp>
+        {/* Showreels Section */}
+        <FadeInUp delay={0.2} className="mb-20">
+          <div className="flex items-center gap-4 mb-8">
+            <Play size={16} className="text-[#555]" />
+            <span className="font-display text-xs text-white tracking-[0.15em]">
+              SHOWREELS
+            </span>
+            <div className="flex-1 h-[1px] bg-[#222]" />
+          </div>
 
-        {/* Media Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {mediaCategories.map((cat, index) => {
-            const Icon = cat.icon;
-            return (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {showreelHighlights.map((reel, index) => (
               <motion.div
-                key={cat.id}
+                key={reel.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.15, duration: 0.5 }}
-                whileHover={{ y: -5 }}
-                className="group relative bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#333] transition-all cursor-pointer overflow-hidden"
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="group relative overflow-hidden"
               >
-                {/* Video Placeholder */}
                 <VideoPlaceholder
-                  prompt={cat.videoPrompt}
+                  prompt={reel.videoPrompt}
                   aspectRatio="video"
                   theme="dark"
-                  label={cat.titleEn}
-                  showPlayIcon={false}
+                  label={reel.title}
                   className="w-full"
                 />
 
-                {/* Content overlay */}
-                <div className="p-6 border-t border-[#1a1a1a]">
-                  {/* Icon and Title */}
-                  <div className="flex items-center gap-4 mb-3">
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="p-2 border border-[#222] group-hover:border-[#444] transition-colors"
-                    >
-                      <Icon
-                        size={20}
-                        strokeWidth={1.5}
-                        className="text-[#555] group-hover:text-white transition-colors"
-                      />
-                    </motion.div>
-                    <div>
-                      <h3 className="font-display text-sm text-white tracking-[0.15em]">
-                        {cat.titleEn}
-                      </h3>
-                      <p className="font-body-jp text-xs text-[#666]">
-                        {cat.titleJp}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="font-body text-xs text-[#555] leading-relaxed mb-4">
-                    {cat.description}
+                {/* Info overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent">
+                  <span className="font-mono text-[9px] text-[#555] tracking-wider block mb-1">
+                    {reel.year}
+                  </span>
+                  <h3 className="font-display text-sm text-white tracking-wider">
+                    {reel.title}
+                  </h3>
+                  <p className="font-body-jp text-[10px] text-[#666]">
+                    {reel.titleJp}
                   </p>
-
-                  {/* Link */}
-                  <motion.span
-                    className="inline-flex items-center gap-2 font-mono text-[10px] text-[#444] group-hover:text-white tracking-wider transition-colors"
-                    whileHover={{ x: 5 }}
-                  >
-                    EXPLORE
-                    <span>→</span>
-                  </motion.span>
                 </div>
 
-                {/* Corner frame */}
                 <CornerFrame />
               </motion.div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </FadeInUp>
 
-        {/* Music Player Preview */}
-        <FadeInUp delay={0.4} className="mt-16">
-          <div className="bg-[#0a0a0a] border border-[#1a1a1a] p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-4">
+        {/* Archive List */}
+        <FadeInUp delay={0.3}>
+          <div className="flex items-center gap-4 mb-8">
+            <Folder size={16} className="text-[#555]" />
+            <span className="font-display text-xs text-white tracking-[0.15em]">
+              PROJECT ARCHIVE
+            </span>
+            <div className="flex-1 h-[1px] bg-[#222]" />
+          </div>
+
+          {/* Year filters */}
+          <div className="flex gap-4 mb-8">
+            {archiveYears.map((year) => (
+              <button
+                key={year}
+                className="font-mono text-[10px] text-[#555] hover:text-white tracking-wider transition-colors flex items-center gap-2"
+              >
+                <Calendar size={12} />
+                {year}
+              </button>
+            ))}
+          </div>
+
+          {/* Archive Grid */}
+          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {archiveItems.map((item, index) => (
+              <motion.div
+                key={item.id}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                transition={{ delay: index * 0.05 }}
+                className="group relative bg-[#0a0a0a] border border-[#1a1a1a] hover:border-[#333] p-4 transition-all cursor-pointer"
+              >
+                {/* Year badge */}
+                <span className="font-mono text-[9px] text-[#444] tracking-wider block mb-2">
+                  {item.year}
+                </span>
+
+                {/* Category */}
+                <span className="font-mono text-[8px] text-[#666] px-2 py-0.5 bg-[#111] border border-[#222] inline-block mb-3">
+                  {item.category}
+                </span>
+
+                {/* Title */}
+                <h4 className="font-body text-sm text-[#888] group-hover:text-white transition-colors mb-1">
+                  {item.title}
+                </h4>
+
+                {/* Client */}
+                <p className="font-mono text-[9px] text-[#444] tracking-wider">
+                  {item.client}
+                </p>
+
+                {/* Hover arrow */}
                 <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="w-12 h-12 bg-[#111] border border-[#222] flex items-center justify-center"
+                  className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                  whileHover={{ x: 3 }}
                 >
-                  <Music size={20} className="text-[#444]" />
+                  <ExternalLink size={14} className="text-[#555]" />
                 </motion.div>
-                <div>
-                  <span className="font-mono text-[10px] text-[#444] tracking-wider block">
-                    NOW PLAYING
-                  </span>
-                  <span className="font-display text-sm text-white tracking-wider">
-                    ALIVE / MONSTER SIREN RECORDS
-                  </span>
-                </div>
-              </div>
-              <div className="hidden sm:flex items-center gap-2">
-                <span className="font-mono text-[10px] text-[#444]">02:34</span>
-                <div className="w-32 h-[2px] bg-[#222] overflow-hidden">
-                  <motion.div
-                    className="h-full bg-white/50"
-                    animate={{ width: ['0%', '60%'] }}
-                    transition={{ duration: 20, repeat: Infinity }}
-                  />
-                </div>
-                <span className="font-mono text-[10px] text-[#444]">04:12</span>
-              </div>
-            </div>
 
-            {/* Waveform visualization placeholder */}
-            <div className="flex items-end justify-center gap-[2px] h-8">
-              {Array.from({ length: 40 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="w-1 bg-[#333]"
-                  animate={{
-                    height: [
-                      `${Math.random() * 50 + 10}%`,
-                      `${Math.random() * 80 + 20}%`,
-                      `${Math.random() * 50 + 10}%`,
-                    ],
-                  }}
-                  transition={{
-                    duration: 0.5 + Math.random() * 0.5,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                  }}
-                />
-              ))}
-            </div>
+                <CornerFrame />
+              </motion.div>
+            ))}
+          </StaggerChildren>
+
+          {/* View All */}
+          <div className="text-center mt-10">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="font-mono text-[10px] text-[#555] hover:text-white tracking-wider transition-colors border border-[#222] hover:border-[#444] px-6 py-2"
+            >
+              VIEW FULL ARCHIVE →
+            </motion.button>
+          </div>
+        </FadeInUp>
+
+        {/* Stats Bar */}
+        <FadeInUp delay={0.4} className="mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-b border-[#1a1a1a]">
+            {[
+              { value: '50+', label: 'PROJECTS', labelJp: 'プロジェクト' },
+              { value: '30+', label: 'CLIENTS', labelJp: 'クライアント' },
+              { value: '4', label: 'YEARS', labelJp: '年間' },
+              { value: '3', label: 'AWARDS', labelJp: '受賞' },
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 + index * 0.1 }}
+                className="text-center"
+              >
+                <span className="font-display text-2xl md:text-3xl text-white tracking-wider block">
+                  {stat.value}
+                </span>
+                <span className="font-mono text-[10px] text-[#555] tracking-wider block mt-1">
+                  {stat.label}
+                </span>
+                <span className="font-body-jp text-[9px] text-[#333]">
+                  {stat.labelJp}
+                </span>
+              </motion.div>
+            ))}
           </div>
         </FadeInUp>
       </div>

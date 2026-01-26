@@ -4,42 +4,51 @@ import { motion } from 'framer-motion';
 import { CornerFrame } from '@/components/ui/CornerFrame';
 import { SectionNumber } from '@/components/ui/SectionNumber';
 import { VideoPlaceholder } from '@/components/ui/VideoPlaceholder';
-import { FadeInUp, FadeInLeft, FadeInRight, ScaleIn } from '@/components/ui/ScrollAnimations';
+import { FadeInUp } from '@/components/ui/ScrollAnimations';
+import { Code, Palette, Play, Sparkles } from 'lucide-react';
 
-const worldItems = [
+const services = [
   {
-    id: 'originiums',
-    titleEn: 'ORIGINIUMS',
-    titleJp: '源石',
-    description: 'The crystallized source of catastrophes and Oripathy infection. Both a curse and a source of immense power.',
-    videoPrompt: 'Abstract loop: Glowing originium crystals growing/pulsing. Ethereal particles emanating. Dark purple/cyan bioluminescent glow. Ominous yet beautiful.',
+    id: 'web',
+    icon: Code,
+    titleEn: 'WEB DEVELOPMENT',
+    titleJp: 'ウェブ開発',
+    description: 'Custom websites and web applications built with modern frameworks. From landing pages to complex platforms.',
+    features: ['Next.js / React', 'E-commerce', 'CMS Integration', 'Performance Optimization'],
+    videoPrompt: 'Code visualization: Terminal with code being typed, website being built in real-time, browser preview updating. Matrix-style code rain transitions.',
   },
   {
-    id: 'infected',
-    titleEn: 'THE INFECTED',
-    titleJp: '感染者',
-    description: 'Those touched by Oripathy face discrimination and death, yet possess extraordinary Arts capabilities.',
-    videoPrompt: 'Emotional loop: Silhouettes of infected individuals with originium crystallization. Hands reaching toward light. Melancholic but hopeful atmosphere.',
+    id: 'brand',
+    icon: Palette,
+    titleEn: 'BRAND IDENTITY',
+    titleJp: 'ブランドアイデンティティ',
+    description: 'Complete visual identity systems that define your brand. Logo design, color systems, and comprehensive guidelines.',
+    features: ['Logo Design', 'Visual Systems', 'Brand Guidelines', 'Collateral Design'],
+    videoPrompt: 'Brand reveal: Logo sketches morphing into final design, color palette animation, typography showcase, mockup presentations.',
   },
   {
-    id: 'rhodes-island',
-    titleEn: 'RHODES ISLAND',
-    titleJp: 'ロドス・アイランド',
-    description: 'A mobile pharmaceutical company and PMC, fighting for a future where the infected are not forsaken.',
-    videoPrompt: 'Epic loop: Rhodes Island landship traversing through barren landscape. Massive mobile city with dramatic scale. Dawn lighting, dust particles, industrial atmosphere.',
+    id: 'motion',
+    icon: Play,
+    titleEn: 'MOTION DESIGN',
+    titleJp: 'モーションデザイン',
+    description: 'Dynamic animations that bring your brand to life. From UI animations to full promotional videos.',
+    features: ['Logo Animation', 'UI/UX Motion', 'Promotional Videos', 'Social Content'],
+    videoPrompt: 'Motion showcase: Kinetic typography, logo animations, UI transitions, abstract motion graphics. Energetic, rhythmic editing.',
   },
   {
-    id: 'catastrophe',
-    titleEn: 'CATASTROPHE',
-    titleJp: '天災',
-    description: 'Unpredictable natural disasters that ravage the land, leaving originiums in their wake.',
-    videoPrompt: 'Dramatic loop: Storm clouds with originium lightning. Cities evacuating via mobile platforms. Apocalyptic yet awe-inspiring nature\'s fury.',
+    id: 'creative',
+    icon: Sparkles,
+    titleEn: 'CREATIVE DIRECTION',
+    titleJp: 'クリエイティブディレクション',
+    description: 'Strategic creative oversight for cohesive brand experiences. Concept development to final execution.',
+    features: ['Concept Development', 'Art Direction', 'Campaign Strategy', 'Visual Storytelling'],
+    videoPrompt: 'Behind the scenes: Mood boards, sketches, brainstorming visuals, project evolution from concept to completion. Documentary style.',
   },
 ];
 
 export function World() {
   return (
-    <section id="world" className="relative bg-white py-24 overflow-hidden">
+    <section id="services" className="relative bg-white py-24 overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 pointer-events-none">
         <div
@@ -58,13 +67,13 @@ export function World() {
         {/* Section Header */}
         <FadeInUp className="text-center mb-16">
           <span className="font-mono text-[10px] text-[#999] tracking-wider block mb-2">
-            ABOUT TERRA
+            WHAT WE DO
           </span>
           <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] text-black tracking-[0.15em]">
-            WORLD
+            SERVICES
           </h2>
           <p className="font-body-jp text-sm text-[#666] mt-2">
-            設定
+            サービス
           </p>
           <motion.div
             className="w-12 h-[1px] bg-black/20 mx-auto mt-6"
@@ -75,82 +84,103 @@ export function World() {
           />
         </FadeInUp>
 
-        {/* Featured World Video */}
+        {/* Featured Process Video */}
         <FadeInUp delay={0.2} className="mb-16">
           <VideoPlaceholder
-            prompt="Cinematic world overview: Sweeping aerial shots of Terra. Mobile cities, catastrophe zones, diverse nations (Ursus, Victoria, Laterano, etc.). Map-style transitions with location labels. Epic orchestral mood."
+            prompt="Studio process reel: Split-screen of design and code work. Figma designs, VS Code, After Effects timeline. Fast-paced, showing the creative process from concept to launch."
             aspectRatio="ultrawide"
             theme="light"
-            label="WORLD OF TERRA"
+            label="OUR PROCESS"
             className="w-full"
           />
         </FadeInUp>
 
-        {/* World Grid - 2x2 layout */}
+        {/* Services Grid - 2x2 layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {worldItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group relative overflow-hidden cursor-pointer bg-[#fafafa] border border-[#eee] hover:border-[#ccc] transition-colors"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2">
-                {/* Video Placeholder */}
-                <div className="relative aspect-square sm:aspect-auto">
-                  <VideoPlaceholder
-                    prompt={item.videoPrompt}
-                    aspectRatio="square"
-                    theme="light"
-                    label={item.titleEn}
-                    showPlayIcon={false}
-                    className="w-full h-full"
-                  />
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="group relative overflow-hidden bg-[#fafafa] border border-[#eee] hover:border-[#ccc] transition-colors"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2">
+                  {/* Video Placeholder */}
+                  <div className="relative aspect-square sm:aspect-auto">
+                    <VideoPlaceholder
+                      prompt={service.videoPrompt}
+                      aspectRatio="square"
+                      theme="light"
+                      label={service.titleEn}
+                      showPlayIcon={false}
+                      className="w-full h-full"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 border border-[#ddd]">
+                        <Icon size={18} strokeWidth={1.5} className="text-[#666]" />
+                      </div>
+                      <div>
+                        <h3 className="font-display text-sm text-black tracking-[0.1em]">
+                          {service.titleEn}
+                        </h3>
+                        <p className="font-body-jp text-[10px] text-[#888]">
+                          {service.titleJp}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="font-body text-xs text-[#666] leading-relaxed mb-4">
+                      {service.description}
+                    </p>
+
+                    {/* Features */}
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {service.features.map((feature) => (
+                        <span
+                          key={feature}
+                          className="font-mono text-[8px] text-[#888] px-2 py-0.5 bg-[#f0f0f0]"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+
+                    <motion.span
+                      className="inline-flex items-center gap-2 font-mono text-[10px] text-[#999] group-hover:text-black tracking-wider transition-colors"
+                      whileHover={{ x: 5 }}
+                    >
+                      LEARN MORE
+                      <span>→</span>
+                    </motion.span>
+                  </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 flex flex-col justify-center">
-                  <span className="font-mono text-[9px] text-[#999] tracking-wider mb-2">
-                    // LORE
-                  </span>
-                  <h3 className="font-display text-lg text-black tracking-[0.1em] mb-1">
-                    {item.titleEn}
-                  </h3>
-                  <p className="font-body-jp text-xs text-[#888] mb-4">
-                    {item.titleJp}
-                  </p>
-                  <p className="font-body text-xs text-[#666] leading-relaxed mb-4">
-                    {item.description}
-                  </p>
-                  <motion.span
-                    className="inline-flex items-center gap-2 font-mono text-[10px] text-[#999] group-hover:text-black tracking-wider transition-colors"
-                    whileHover={{ x: 5 }}
-                  >
-                    EXPLORE
-                    <span>→</span>
-                  </motion.span>
-                </div>
-              </div>
-
-              {/* Corner frame */}
-              <CornerFrame theme="light" />
-            </motion.div>
-          ))}
+                {/* Corner frame */}
+                <CornerFrame theme="light" />
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Bottom CTA */}
         <FadeInUp delay={0.4} className="text-center mt-16">
           <p className="font-body text-sm text-[#888] mb-6">
-            Discover the rich lore and complex world of Terra
+            Have a project in mind? Let&apos;s create something extraordinary together.
           </p>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="px-8 py-3 border border-black text-black font-display text-xs tracking-[0.2em] hover:bg-black hover:text-white transition-colors"
           >
-            EXPLORE WORLD SETTINGS
+            START A PROJECT
           </motion.button>
         </FadeInUp>
       </div>
