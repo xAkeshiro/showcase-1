@@ -72,11 +72,11 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             />
           </div>
 
-          {/* Vertical scanning line */}
+          {/* Horizontal scanning line */}
           <motion.div
-            className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/30 to-transparent"
-            initial={{ left: '0%' }}
-            animate={{ left: '100%' }}
+            className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"
+            initial={{ top: '0%' }}
+            animate={{ top: '100%' }}
             transition={{ duration: 2.5, repeat: Infinity, ease: 'linear' }}
           />
 
