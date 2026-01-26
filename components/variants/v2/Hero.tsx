@@ -30,6 +30,18 @@ export function VariantHero() {
       id="hero"
       className="relative min-h-screen bg-black flex items-center justify-center overflow-hidden"
     >
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #fff 1px, transparent 1px),
+            linear-gradient(to bottom, #fff 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
       {/* Large Background Text */}
       <motion.div
         style={{ y }}
@@ -39,6 +51,13 @@ export function VariantHero() {
           黒星
         </span>
       </motion.div>
+
+      {/* Horizontal scanning line */}
+      <motion.div
+        className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+      />
 
       {/* Grid Lines */}
       <div className="absolute inset-0 pointer-events-none">
@@ -51,13 +70,32 @@ export function VariantHero() {
 
       {/* Main Content */}
       <motion.div style={{ opacity }} className="relative z-10 text-center px-6">
+        {/* Star Logo */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 flex justify-center"
+        >
+          <div className="relative w-16 h-16 flex items-center justify-center">
+            {/* Rotating border */}
+            <motion.div
+              className="absolute inset-0 border border-[#222]"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            />
+            {/* Star */}
+            <span className="text-2xl">★</span>
+          </div>
+        </motion.div>
+
         {/* Rotating Role */}
         <motion.div
           key={currentRole}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="mb-8"
+          className="mb-6"
         >
           <span className="font-mono text-xs text-[#444] tracking-[0.5em]">
             WE {roles[currentRole]}
@@ -65,7 +103,7 @@ export function VariantHero() {
         </motion.div>
 
         {/* Main Title */}
-        <div className="space-y-2 mb-12">
+        <div className="space-y-2 mb-6">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -85,12 +123,22 @@ export function VariantHero() {
           </motion.h1>
         </div>
 
+        {/* Japanese Subtitle */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+          className="font-body-jp text-sm text-[#555] tracking-wider mb-8"
+        >
+          黒星 — Black Star
+        </motion.p>
+
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="font-body text-sm text-[#555] max-w-md mx-auto leading-relaxed mb-12"
+          className="font-body text-sm text-[#444] max-w-md mx-auto leading-relaxed mb-12"
         >
           A creative studio crafting digital experiences through design,
           development, and motion.
@@ -115,26 +163,64 @@ export function VariantHero() {
       </motion.div>
 
       {/* Corner Elements */}
-      <div className="absolute top-8 left-8">
-        <span className="font-mono text-[9px] text-[#333] tracking-wider">
-          EST. 2023
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="absolute top-8 left-8 flex items-center gap-3"
+      >
+        <div className="w-2 h-2 bg-white" />
+        <span className="font-mono text-[9px] text-[#444] tracking-[0.3em]">
+          VARIANT.02
         </span>
-      </div>
-      <div className="absolute top-8 right-8">
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="absolute top-8 right-8"
+      >
         <span className="font-mono text-[9px] text-[#333] tracking-wider">
-          TOKYO / WORLDWIDE
+          WORLDWIDE / REMOTE
         </span>
-      </div>
-      <div className="absolute bottom-8 left-8">
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="absolute bottom-8 left-8"
+      >
         <span className="font-mono text-[9px] text-[#333] tracking-wider">
-          CREATIVE STUDIO
+          DESIGN + DEVELOPMENT + MOTION
         </span>
-      </div>
-      <div className="absolute bottom-8 right-8">
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="absolute bottom-8 right-8"
+      >
         <span className="font-mono text-[9px] text-[#333] tracking-wider">
-          V.02
+          // 01 / HERO
         </span>
-      </div>
+      </motion.div>
+
+      {/* Side lines */}
+      <motion.div
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-32 bg-gradient-to-b from-transparent via-[#222] to-transparent"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      />
+      <motion.div
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-32 bg-gradient-to-b from-transparent via-[#222] to-transparent"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      />
     </section>
   );
 }
