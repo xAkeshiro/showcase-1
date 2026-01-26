@@ -25,7 +25,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
         setTimeout(() => {
           setPhase('exit');
           setTimeout(onComplete, 1000); // Longer delay for swipe animation
-        }, 400);
+        }, 1400); // 1 second pause at 100% before exit
       }
     }, 16);
 
