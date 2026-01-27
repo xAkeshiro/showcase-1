@@ -13,6 +13,7 @@ const navItems = [
 
 export function VariantNavigation() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -21,6 +22,14 @@ export function VariantNavigation() {
       setIsVisible(true);
     }, 2500);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -34,14 +43,30 @@ export function VariantNavigation() {
               duration: 0.8,
               ease: [0.76, 0, 0.24, 1]
             }}
-            className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-[#222]"
+            className="fixed top-0 left-0 right-0 z-50 overflow-hidden"
           >
-            <div className="max-w-7xl mx-auto px-6 py-4">
+            {/* White base layer */}
+            <div className="absolute inset-0 bg-white border-b border-[#eee]" />
+
+            {/* Black overlay that slides in on scroll */}
+            <motion.div
+              className="absolute inset-0 bg-black border-b border-[#222]"
+              initial={{ x: '100%' }}
+              animate={{ x: isScrolled ? 0 : '100%' }}
+              transition={{
+                duration: 0.6,
+                ease: [0.76, 0, 0.24, 1]
+              }}
+            />
+
+            <div className="relative max-w-7xl mx-auto px-6 py-4">
               <div className="flex items-center justify-between">
                 {/* Contact Link */}
                 <a
                   href="#contact"
-                  className="flex items-center gap-2 text-[#666] hover:text-white transition-colors"
+                  className={`flex items-center gap-2 transition-colors duration-300 ${
+                    isScrolled ? 'text-[#666] hover:text-white' : 'text-[#888] hover:text-black'
+                  }`}
                 >
                   <span className="font-mono text-[10px] tracking-wider">GET IN TOUCH</span>
                 </a>
@@ -52,14 +77,22 @@ export function VariantNavigation() {
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-3"
                   >
-                    <div className="w-8 h-8 border border-[#333] flex items-center justify-center">
-                      <span className="text-sm text-white">★</span>
+                    <div className={`w-8 h-8 border flex items-center justify-center transition-colors duration-300 ${
+                      isScrolled ? 'border-[#333]' : 'border-[#ccc]'
+                    }`}>
+                      <span className={`text-sm transition-colors duration-300 ${
+                        isScrolled ? 'text-white' : 'text-black'
+                      }`}>★</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-display text-sm text-white tracking-[0.3em]">
+                      <span className={`font-display text-sm tracking-[0.3em] transition-colors duration-300 ${
+                        isScrolled ? 'text-white' : 'text-black'
+                      }`}>
                         KUROSEI
                       </span>
-                      <span className="font-mono text-[8px] text-[#555] tracking-widest">
+                      <span className={`font-mono text-[8px] tracking-widest transition-colors duration-300 ${
+                        isScrolled ? 'text-[#555]' : 'text-[#999]'
+                      }`}>
                         CREATIVE STUDIO
                       </span>
                     </div>
@@ -72,7 +105,9 @@ export function VariantNavigation() {
                     <a
                       key={item.label}
                       href={item.href}
-                      className="font-mono text-[10px] text-[#666] hover:text-white tracking-wider transition-colors"
+                      className={`font-mono text-[10px] tracking-wider transition-colors duration-300 ${
+                        isScrolled ? 'text-[#666] hover:text-white' : 'text-[#888] hover:text-black'
+                      }`}
                     >
                       {item.label}
                     </a>
@@ -85,9 +120,9 @@ export function VariantNavigation() {
                   className="md:hidden p-2"
                 >
                   {isMenuOpen ? (
-                    <X size={20} className="text-white" />
+                    <X size={20} className={isScrolled ? 'text-white' : 'text-black'} />
                   ) : (
-                    <Menu size={20} className="text-white" />
+                    <Menu size={20} className={isScrolled ? 'text-white' : 'text-black'} />
                   )}
                 </button>
               </div>
