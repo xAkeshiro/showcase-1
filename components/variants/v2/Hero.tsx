@@ -143,30 +143,7 @@ export function VariantHero() {
         </motion.div>
       </motion.div>
 
-      {/* Corner Elements */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-        className="absolute top-8 left-8 flex items-center gap-3"
-      >
-        <div className="w-2 h-2 bg-black" />
-        <span className="font-mono text-[9px] text-[#999] tracking-[0.3em]">
-          KUROSEI.STUDIO
-        </span>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-        className="absolute top-8 right-8"
-      >
-        <span className="font-mono text-[9px] text-[#aaa] tracking-wider">
-          WORLDWIDE / REMOTE
-        </span>
-      </motion.div>
-
+      {/* Bottom Corner Elements */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
