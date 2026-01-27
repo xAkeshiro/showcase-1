@@ -70,25 +70,6 @@ export function VariantHero() {
 
       {/* Main Content */}
       <motion.div style={{ opacity }} className="relative z-10 text-center px-6">
-        {/* Star Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 flex justify-center"
-        >
-          <div className="relative w-16 h-16 flex items-center justify-center">
-            {/* Rotating border */}
-            <motion.div
-              className="absolute inset-0 border border-[#222]"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            />
-            {/* Star */}
-            <span className="text-2xl">★</span>
-          </div>
-        </motion.div>
-
         {/* Rotating Role */}
         <motion.div
           key={currentRole}

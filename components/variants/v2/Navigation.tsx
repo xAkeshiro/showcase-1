@@ -48,14 +48,19 @@ export function VariantNavigation() {
             <Link href="#hero" className="absolute left-1/2 -translate-x-1/2">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="flex flex-col items-center"
+                className="flex items-center gap-3"
               >
-                <span className="font-display text-sm text-white tracking-[0.3em]">
-                  KUROSEI
-                </span>
-                <span className="font-mono text-[8px] text-[#444] tracking-widest">
-                  VARIANT 02
-                </span>
+                <div className="w-8 h-8 border border-[#333] flex items-center justify-center">
+                  <span className="text-sm">★</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-display text-sm text-white tracking-[0.3em]">
+                    KUROSEI
+                  </span>
+                  <span className="font-mono text-[8px] text-[#444] tracking-widest">
+                    VARIANT 02
+                  </span>
+                </div>
               </motion.div>
             </Link>
 
