@@ -159,13 +159,15 @@ export function VariantHero() {
             {/* Outer rotating ring */}
             <motion.div
               className="absolute inset-0 border border-black/30"
-              animate={{ rotate: 360 }}
+              initial={{ rotate: 15 }}
+              animate={{ rotate: 375 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
             />
             {/* Inner rotating square */}
             <motion.div
-              className="absolute inset-[15%] border border-black/20 rotate-45"
-              animate={{ rotate: [45, 405] }}
+              className="absolute inset-[15%] border border-black/20"
+              initial={{ rotate: -30 }}
+              animate={{ rotate: [-30, 330] }}
               transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
             />
             {/* Star center */}
