@@ -8,6 +8,83 @@ interface LoadingScreenV2Props {
   minimumLoadTime?: number;
 }
 
+function GlitchText() {
+  const [isJapanese, setIsJapanese] = useState(true);
+  const [isGlitching, setIsGlitching] = useState(false);
+
+  useEffect(() => {
+    const glitchInterval = setInterval(() => {
+      // Start glitch effect
+      setIsGlitching(true);
+
+      // Quick glitch flickers
+      const flickerCount = 4 + Math.floor(Math.random() * 3);
+      let flickerIndex = 0;
+
+      const flickerInterval = setInterval(() => {
+        setIsJapanese(prev => !prev);
+        flickerIndex++;
+
+        if (flickerIndex >= flickerCount) {
+          clearInterval(flickerInterval);
+          setIsGlitching(false);
+          // End on the opposite of what we started
+          setIsJapanese(prev => !prev);
+        }
+      }, 50 + Math.random() * 50);
+
+    }, 2000 + Math.random() * 1000);
+
+    return () => clearInterval(glitchInterval);
+  }, []);
+
+  return (
+    <div className="relative">
+      {/* Glitch layers */}
+      {isGlitching && (
+        <>
+          <span
+            className="absolute inset-0 font-display text-4xl md:text-5xl text-red-500/30 tracking-[0.2em]"
+            style={{ transform: 'translate(-2px, 0)' }}
+          >
+            {isJapanese ? 'クロセイ' : 'KUROSEI'}
+          </span>
+          <span
+            className="absolute inset-0 font-display text-4xl md:text-5xl text-cyan-500/30 tracking-[0.2em]"
+            style={{ transform: 'translate(2px, 0)' }}
+          >
+            {isJapanese ? 'クロセイ' : 'KUROSEI'}
+          </span>
+        </>
+      )}
+
+      {/* Main text */}
+      <h1
+        className={`font-display text-4xl md:text-5xl text-white tracking-[0.2em] transition-opacity ${
+          isGlitching ? 'opacity-90' : 'opacity-100'
+        }`}
+        style={isGlitching ? {
+          textShadow: '2px 0 #ff0000, -2px 0 #00ffff',
+          animation: 'glitchShake 0.1s infinite'
+        } : {}}
+      >
+        {isJapanese ? 'クロセイ' : 'KUROSEI'}
+      </h1>
+
+      {/* Glitch CSS */}
+      <style jsx>{`
+        @keyframes glitchShake {
+          0% { transform: translate(0); }
+          25% { transform: translate(-1px, 1px); }
+          50% { transform: translate(1px, -1px); }
+          75% { transform: translate(-1px, -1px); }
+          100% { transform: translate(1px, 1px); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingScreenV2Props) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<'loading' | 'complete' | 'exit'>('loading');
@@ -24,8 +101,8 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
         setPhase('complete');
         setTimeout(() => {
           setPhase('exit');
-          setTimeout(onComplete, 1000); // Longer delay for swipe animation
-        }, 1400); // 1 second pause at 100% before exit
+          setTimeout(onComplete, 1000);
+        }, 1400);
       }
     }, 16);
 
@@ -42,10 +119,10 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
           }}
           transition={{
             duration: 0.9,
-            ease: [0.76, 0, 0.24, 1], // Custom easing for smooth swipe
+            ease: [0.76, 0, 0.24, 1],
           }}
         >
-          {/* Reveal edge - white line on right during exit */}
+          {/* Reveal edge */}
           <motion.div
             className="absolute right-0 top-0 bottom-0 w-[2px] bg-white/20"
             initial={{ scaleY: 0 }}
@@ -53,7 +130,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             transition={{ duration: 0.3 }}
           />
 
-          {/* Background grid animation */}
+          {/* Background grid */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
               className="absolute inset-0"
@@ -70,7 +147,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             />
           </div>
 
-          {/* Horizontal scanning line */}
+          {/* Scanning line */}
           <motion.div
             className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"
             initial={{ top: '0%' }}
@@ -106,7 +183,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
 
           {/* Main content */}
           <div className="relative z-10 flex flex-col items-center">
-            {/* Minimal logo */}
+            {/* Logo */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -114,13 +191,11 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
               className="mb-12"
             >
               <div className="relative w-20 h-20 flex items-center justify-center">
-                {/* Rotating border */}
                 <motion.div
                   className="absolute inset-0 border border-[#222]"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                 />
-                {/* Star */}
                 <motion.span
                   className="text-3xl"
                   initial={{ opacity: 0, rotate: -180 }}
@@ -132,16 +207,14 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
               </div>
             </motion.div>
 
-            {/* Title - horizontal reveal */}
+            {/* Glitching Title */}
             <div className="overflow-hidden mb-8">
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: 0 }}
                 transition={{ delay: 0.4, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
               >
-                <h1 className="font-display text-4xl md:text-5xl text-white tracking-[0.2em]">
-                  KUROSEI
-                </h1>
+                <GlitchText />
               </motion.div>
             </div>
 
@@ -155,7 +228,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
               黒星 — Creative Studio
             </motion.p>
 
-            {/* Progress bar - horizontal style */}
+            {/* Progress bar */}
             <motion.div
               className="w-72"
               initial={{ opacity: 0 }}
@@ -181,7 +254,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             </motion.div>
           </div>
 
-          {/* Bottom line decoration */}
+          {/* Bottom decoration */}
           <motion.div
             className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-4"
             initial={{ opacity: 0, y: 20 }}
@@ -195,7 +268,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             <div className="w-8 h-[1px] bg-[#333]" />
           </motion.div>
 
-          {/* Bottom left - services tagline */}
+          {/* Bottom left tagline */}
           <motion.div
             className="absolute bottom-8 left-8"
             initial={{ opacity: 0 }}
@@ -207,7 +280,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             </span>
           </motion.div>
 
-          {/* Swipe indicator on complete */}
+          {/* Swipe indicator */}
           {phase === 'complete' && (
             <motion.div
               className="absolute right-8 top-1/2 -translate-y-1/2"
