@@ -148,44 +148,37 @@ export function VariantHero() {
           </motion.div>
         </div>
 
-        {/* Right Side - Star & Square Icons */}
+        {/* Right Side - Star & Square Icons (matching v1 loading screen) */}
         <div className="flex-1 flex items-center justify-center pr-12 md:pr-20 lg:pr-32">
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="relative"
+            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
+            className="relative w-[clamp(10rem,25vw,20rem)] h-[clamp(10rem,25vw,20rem)]"
           >
-            {/* Large Star */}
-            <motion.span
-              className="text-[clamp(6rem,15vw,12rem)] text-black select-none block"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-            >
-              ★
-            </motion.span>
-
-            {/* Square outline positioned relative to star - slow rotation */}
+            {/* Outer rotating ring */}
             <motion.div
-              className="absolute top-1/2 left-1/2 border border-black/20"
-              style={{
-                width: 'clamp(10rem,25vw,20rem)',
-                height: 'clamp(10rem,25vw,20rem)',
-                marginLeft: 'calc(-1 * clamp(5rem,12.5vw,10rem))',
-                marginTop: 'calc(-1 * clamp(5rem,12.5vw,10rem))'
-              }}
+              className="absolute inset-0 border border-black/30"
               animate={{ rotate: 360 }}
-              transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
             />
-
-            {/* Inner square */}
+            {/* Inner rotating square */}
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-black/10"
-              style={{ width: 'clamp(6rem,15vw,12rem)', height: 'clamp(6rem,15vw,12rem)' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.6 }}
+              className="absolute inset-[15%] border border-black/20 rotate-45"
+              animate={{ rotate: [45, 405] }}
+              transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
             />
+            {/* Star center */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.span
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="text-[clamp(2rem,5vw,4rem)] text-black select-none"
+              >
+                ★
+              </motion.span>
+            </div>
           </motion.div>
         </div>
       </motion.div>
