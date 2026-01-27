@@ -30,7 +30,7 @@ export function VariantNavigation() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-black/90 backdrop-blur-sm' : 'bg-transparent'
+          isScrolled ? 'bg-white/90 backdrop-blur-sm border-b border-[#eee]' : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-6">
@@ -38,7 +38,7 @@ export function VariantNavigation() {
             {/* Contact Link */}
             <a
               href="#contact"
-              className="flex items-center gap-2 text-[#555] hover:text-white transition-colors"
+              className="flex items-center gap-2 text-[#888] hover:text-black transition-colors"
             >
               <span className="font-mono text-[10px] tracking-wider">GET IN TOUCH</span>
             </a>
@@ -49,14 +49,14 @@ export function VariantNavigation() {
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center gap-3"
               >
-                <div className="w-8 h-8 border border-[#333] flex items-center justify-center">
-                  <span className="text-sm">★</span>
+                <div className="w-8 h-8 border border-[#ccc] flex items-center justify-center">
+                  <span className="text-sm text-black">★</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display text-sm text-white tracking-[0.3em]">
+                  <span className="font-display text-sm text-black tracking-[0.3em]">
                     KUROSEI
                   </span>
-                  <span className="font-mono text-[8px] text-[#444] tracking-widest">
+                  <span className="font-mono text-[8px] text-[#999] tracking-widest">
                     CREATIVE STUDIO
                   </span>
                 </div>
@@ -69,7 +69,7 @@ export function VariantNavigation() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="font-mono text-[10px] text-[#666] hover:text-white tracking-wider transition-colors"
+                  className="font-mono text-[10px] text-[#888] hover:text-black tracking-wider transition-colors"
                 >
                   {item.label}
                 </a>
@@ -82,9 +82,9 @@ export function VariantNavigation() {
               className="md:hidden p-2"
             >
               {isMenuOpen ? (
-                <X size={20} className="text-white" />
+                <X size={20} className="text-black" />
               ) : (
-                <Menu size={20} className="text-white" />
+                <Menu size={20} className="text-black" />
               )}
             </button>
           </div>
