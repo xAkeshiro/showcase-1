@@ -12,84 +12,89 @@ const navItems = [
 ];
 
 export function VariantNavigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Delay nav appearance by 2.5 seconds after page loads
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 2500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white/90 backdrop-blur-sm border-b border-[#eee]' : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            {/* Contact Link */}
-            <a
-              href="#contact"
-              className="flex items-center gap-2 text-[#888] hover:text-black transition-colors"
-            >
-              <span className="font-mono text-[10px] tracking-wider">GET IN TOUCH</span>
-            </a>
-
-            {/* Logo */}
-            <Link href="#hero" className="absolute left-1/2 -translate-x-1/2">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-3"
-              >
-                <div className="w-8 h-8 border border-[#ccc] flex items-center justify-center">
-                  <span className="text-sm text-black">★</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-display text-sm text-black tracking-[0.3em]">
-                    KUROSEI
-                  </span>
-                  <span className="font-mono text-[8px] text-[#999] tracking-widest">
-                    CREATIVE STUDIO
-                  </span>
-                </div>
-              </motion.div>
-            </Link>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
+      <AnimatePresence>
+        {isVisible && (
+          <motion.nav
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.76, 0, 0.24, 1]
+            }}
+            className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-[#222]"
+          >
+            <div className="max-w-7xl mx-auto px-6 py-4">
+              <div className="flex items-center justify-between">
+                {/* Contact Link */}
                 <a
-                  key={item.label}
-                  href={item.href}
-                  className="font-mono text-[10px] text-[#888] hover:text-black tracking-wider transition-colors"
+                  href="#contact"
+                  className="flex items-center gap-2 text-[#666] hover:text-white transition-colors"
                 >
-                  {item.label}
+                  <span className="font-mono text-[10px] tracking-wider">GET IN TOUCH</span>
                 </a>
-              ))}
-            </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2"
-            >
-              {isMenuOpen ? (
-                <X size={20} className="text-black" />
-              ) : (
-                <Menu size={20} className="text-black" />
-              )}
-            </button>
-          </div>
-        </div>
-      </motion.nav>
+                {/* Logo */}
+                <Link href="#hero" className="absolute left-1/2 -translate-x-1/2">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-8 h-8 border border-[#333] flex items-center justify-center">
+                      <span className="text-sm text-white">★</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-display text-sm text-white tracking-[0.3em]">
+                        KUROSEI
+                      </span>
+                      <span className="font-mono text-[8px] text-[#555] tracking-widest">
+                        CREATIVE STUDIO
+                      </span>
+                    </div>
+                  </motion.div>
+                </Link>
+
+                {/* Desktop Nav */}
+                <div className="hidden md:flex items-center gap-8">
+                  {navItems.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="font-mono text-[10px] text-[#666] hover:text-white tracking-wider transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="md:hidden p-2"
+                >
+                  {isMenuOpen ? (
+                    <X size={20} className="text-white" />
+                  ) : (
+                    <Menu size={20} className="text-white" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
 
       {/* Mobile Menu */}
       <AnimatePresence>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LoadingScreenV2 } from '@/components/variants/v2/LoadingScreen';
 import { VariantNavigation } from '@/components/variants/v2/Navigation';
 import { VariantHero } from '@/components/variants/v2/Hero';
+import { VariantIntro } from '@/components/variants/v2/Intro';
 import { VariantWork } from '@/components/variants/v2/Work';
 import { VariantAbout } from '@/components/variants/v2/About';
 import { VariantContact } from '@/components/variants/v2/Contact';
@@ -37,6 +38,7 @@ export default function VariantPage() {
         <VariantNavigation />
         <main>
           <VariantHero />
+          <VariantIntro />
           <VariantWork />
           <VariantAbout />
           <VariantContact />
