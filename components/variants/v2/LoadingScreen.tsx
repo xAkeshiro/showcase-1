@@ -39,12 +39,10 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
           className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center overflow-hidden"
           exit={{
             x: '-100%',
-            opacity: 0,
           }}
           transition={{
             duration: 0.9,
             ease: [0.76, 0, 0.24, 1], // Custom easing for smooth swipe
-            opacity: { duration: 0.6, delay: 0.3 }
           }}
         >
           {/* Reveal edge - white line on right during exit */}
