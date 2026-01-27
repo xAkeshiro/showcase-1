@@ -169,10 +169,10 @@ export function VariantHero() {
             <motion.div
               className="absolute top-1/2 left-1/2 border border-black/20"
               style={{
-                width: 'clamp(8rem,20vw,16rem)',
-                height: 'clamp(8rem,20vw,16rem)',
-                marginLeft: 'calc(-1 * clamp(4rem,10vw,8rem))',
-                marginTop: 'calc(-1 * clamp(4rem,10vw,8rem))'
+                width: 'clamp(10rem,25vw,20rem)',
+                height: 'clamp(10rem,25vw,20rem)',
+                marginLeft: 'calc(-1 * clamp(5rem,12.5vw,10rem))',
+                marginTop: 'calc(-1 * clamp(5rem,12.5vw,10rem))'
               }}
               animate={{ rotate: 360 }}
               transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
@@ -181,7 +181,7 @@ export function VariantHero() {
             {/* Inner square */}
             <motion.div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-black/10"
-              style={{ width: 'clamp(4rem,10vw,8rem)', height: 'clamp(4rem,10vw,8rem)' }}
+              style={{ width: 'clamp(6rem,15vw,12rem)', height: 'clamp(6rem,15vw,12rem)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 0.6 }}
