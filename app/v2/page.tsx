@@ -17,7 +17,7 @@ export default function VariantPage() {
   }, []);
 
   return (
-    <>
+    <div className="bg-white min-h-screen">
       <AnimatePresence mode="wait">
         {isLoading && (
           <LoadingScreenV2 onComplete={handleLoadComplete} minimumLoadTime={2500} />
@@ -42,6 +42,6 @@ export default function VariantPage() {
           <VariantContact />
         </main>
       </motion.div>
-    </>
+    </div>
   );
 }
