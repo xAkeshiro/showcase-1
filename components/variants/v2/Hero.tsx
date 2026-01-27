@@ -158,26 +158,30 @@ export function VariantHero() {
           >
             {/* Large Star */}
             <motion.span
-              className="text-[clamp(8rem,20vw,16rem)] text-black select-none block"
+              className="text-[clamp(6rem,15vw,12rem)] text-black select-none block"
               animate={{ rotate: 360 }}
               transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
             >
               ★
             </motion.span>
 
-            {/* Square outline positioned relative to star */}
+            {/* Square outline positioned relative to star - slow rotation */}
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-black/20"
-              style={{ width: 'clamp(10rem,25vw,20rem)', height: 'clamp(10rem,25vw,20rem)' }}
-              initial={{ opacity: 0, rotate: 45 }}
-              animate={{ opacity: 1, rotate: 45 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
+              className="absolute top-1/2 left-1/2 border border-black/20"
+              style={{
+                width: 'clamp(8rem,20vw,16rem)',
+                height: 'clamp(8rem,20vw,16rem)',
+                marginLeft: 'calc(-1 * clamp(4rem,10vw,8rem))',
+                marginTop: 'calc(-1 * clamp(4rem,10vw,8rem))'
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
             />
 
             {/* Inner square */}
             <motion.div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-black/10"
-              style={{ width: 'clamp(6rem,15vw,12rem)', height: 'clamp(6rem,15vw,12rem)' }}
+              style={{ width: 'clamp(4rem,10vw,8rem)', height: 'clamp(4rem,10vw,8rem)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 0.6 }}
