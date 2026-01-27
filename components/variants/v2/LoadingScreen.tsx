@@ -8,83 +8,6 @@ interface LoadingScreenV2Props {
   minimumLoadTime?: number;
 }
 
-function GlitchText() {
-  const [isJapanese, setIsJapanese] = useState(true);
-  const [isGlitching, setIsGlitching] = useState(false);
-
-  useEffect(() => {
-    const glitchInterval = setInterval(() => {
-      // Start glitch effect
-      setIsGlitching(true);
-
-      // Quick glitch flickers
-      const flickerCount = 4 + Math.floor(Math.random() * 3);
-      let flickerIndex = 0;
-
-      const flickerInterval = setInterval(() => {
-        setIsJapanese(prev => !prev);
-        flickerIndex++;
-
-        if (flickerIndex >= flickerCount) {
-          clearInterval(flickerInterval);
-          setIsGlitching(false);
-          // End on the opposite of what we started
-          setIsJapanese(prev => !prev);
-        }
-      }, 50 + Math.random() * 50);
-
-    }, 2000 + Math.random() * 1000);
-
-    return () => clearInterval(glitchInterval);
-  }, []);
-
-  return (
-    <div className="relative">
-      {/* Glitch layers */}
-      {isGlitching && (
-        <>
-          <span
-            className="absolute inset-0 font-display text-4xl md:text-5xl text-red-500/30 tracking-[0.2em]"
-            style={{ transform: 'translate(-2px, 0)' }}
-          >
-            {isJapanese ? 'クロセイ' : 'KUROSEI'}
-          </span>
-          <span
-            className="absolute inset-0 font-display text-4xl md:text-5xl text-cyan-500/30 tracking-[0.2em]"
-            style={{ transform: 'translate(2px, 0)' }}
-          >
-            {isJapanese ? 'クロセイ' : 'KUROSEI'}
-          </span>
-        </>
-      )}
-
-      {/* Main text */}
-      <h1
-        className={`font-display text-4xl md:text-5xl text-white tracking-[0.2em] transition-opacity ${
-          isGlitching ? 'opacity-90' : 'opacity-100'
-        }`}
-        style={isGlitching ? {
-          textShadow: '2px 0 #ff0000, -2px 0 #00ffff',
-          animation: 'glitchShake 0.1s infinite'
-        } : {}}
-      >
-        {isJapanese ? 'クロセイ' : 'KUROSEI'}
-      </h1>
-
-      {/* Glitch CSS */}
-      <style jsx>{`
-        @keyframes glitchShake {
-          0% { transform: translate(0); }
-          25% { transform: translate(-1px, 1px); }
-          50% { transform: translate(1px, -1px); }
-          75% { transform: translate(-1px, -1px); }
-          100% { transform: translate(1px, 1px); }
-        }
-      `}</style>
-    </div>
-  );
-}
-
 export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingScreenV2Props) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<'loading' | 'complete' | 'exit'>('loading');
@@ -207,14 +130,16 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
               </div>
             </motion.div>
 
-            {/* Glitching Title */}
+            {/* Title */}
             <div className="overflow-hidden mb-8">
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: 0 }}
                 transition={{ delay: 0.4, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
               >
-                <GlitchText />
+                <h1 className="font-display text-4xl md:text-5xl text-white tracking-[0.2em]">
+                  KUROSEI
+                </h1>
               </motion.div>
             </div>
 
