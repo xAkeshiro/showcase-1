@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Globe, Sparkles, Target } from 'lucide-react';
+import { useState } from 'react';
 
 const initiatives = [
   {
@@ -9,18 +10,24 @@ const initiatives = [
     title: 'GLOBAL REACH',
     titleJp: 'グローバル',
     description: 'Working with clients worldwide, from Tokyo to New York.',
+    expandedContent: 'Our distributed team operates across time zones, ensuring seamless collaboration with clients in Asia, Europe, and the Americas. We bring diverse perspectives to every project.',
+    stats: ['12+ Countries', '50+ Projects', '24/7 Availability'],
   },
   {
     icon: Sparkles,
     title: 'CRAFT FIRST',
     titleJp: 'クラフト',
     description: 'Every pixel, every interaction, every detail matters.',
+    expandedContent: 'We obsess over the details that others overlook. From micro-interactions to typography choices, we believe excellence lives in the margins.',
+    stats: ['Pixel Perfect', 'Motion Design', 'Typography'],
   },
   {
     icon: Target,
     title: 'RESULTS DRIVEN',
     titleJp: '結果重視',
     description: 'Design that performs, not just impresses.',
+    expandedContent: 'Beautiful design means nothing without results. We measure success through conversions, engagement, and real business impact for our clients.',
+    stats: ['+40% Avg Conversion', 'Data Informed', 'ROI Focused'],
   },
 ];
 
@@ -108,21 +115,19 @@ export function VariantIntro() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.15, duration: 0.6 }}
-                className="group relative border border-[#1a1a1a] hover:border-[#333] p-8 transition-all"
+                whileHover={{ scale: 1.02 }}
+                className="group relative border border-[#1a1a1a] hover:border-[#444] p-8 transition-all duration-300 hover:bg-[#0a0a0a]"
               >
                 {/* Icon */}
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  className="w-12 h-12 border border-[#222] flex items-center justify-center mb-6"
-                >
+                <div className="w-12 h-12 border border-[#222] group-hover:border-[#444] flex items-center justify-center mb-6 transition-colors">
                   <Icon size={20} strokeWidth={1} className="text-[#555] group-hover:text-white transition-colors" />
-                </motion.div>
+                </div>
 
                 {/* Title */}
                 <h3 className="font-display text-sm text-white tracking-[0.15em] mb-2">
                   {item.title}
                 </h3>
-                <span className="font-body-jp text-[10px] text-[#444] block mb-4">
+                <span className="font-body-jp text-[10px] text-[#444] group-hover:text-[#555] block mb-4 transition-colors">
                   {item.titleJp}
                 </span>
 
@@ -131,9 +136,32 @@ export function VariantIntro() {
                   {item.description}
                 </p>
 
+                {/* Expanded content - revealed on hover */}
+                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-out">
+                  <div className="overflow-hidden">
+                    <div className="pt-6 border-t border-[#1a1a1a] group-hover:border-[#222] mt-6 transition-colors">
+                      <p className="font-body text-xs text-[#666] leading-relaxed mb-4">
+                        {item.expandedContent}
+                      </p>
+
+                      {/* Stats */}
+                      <div className="flex flex-wrap gap-2">
+                        {item.stats.map((stat) => (
+                          <span
+                            key={stat}
+                            className="font-mono text-[9px] text-[#444] bg-[#111] px-2 py-1 tracking-wider"
+                          >
+                            {stat}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#222] group-hover:border-[#444] transition-colors" />
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#222] group-hover:border-[#444] transition-colors" />
+                <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#222] group-hover:border-[#444] group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#222] group-hover:border-[#444] group-hover:w-6 group-hover:h-6 transition-all duration-300" />
               </motion.div>
             );
           })}
