@@ -90,7 +90,7 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
             >
               <div className="w-2 h-2 bg-white" />
               <span className="font-mono text-[10px] text-[#444] tracking-[0.3em]">
-                VARIANT.02
+                INITIALIZING
               </span>
             </motion.div>
           </div>

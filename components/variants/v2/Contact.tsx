@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
 
 const socialLinks = [
   { name: 'TWITTER', href: '#' },
@@ -147,12 +146,9 @@ export function VariantContact() {
             <span className="font-mono text-[9px] text-[#999] tracking-wider">
               © 2026 KUROSEI
             </span>
-            <Link
-              href="/"
-              className="font-mono text-[9px] text-[#999] hover:text-black tracking-wider transition-colors"
-            >
-              VIEW MAIN SITE →
-            </Link>
+            <span className="font-mono text-[9px] text-[#999] tracking-wider">
+              ALL RIGHTS RESERVED
+            </span>
           </div>
         </div>
       </div>

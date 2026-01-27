@@ -152,7 +152,7 @@ export function VariantHero() {
       >
         <div className="w-2 h-2 bg-white" />
         <span className="font-mono text-[9px] text-[#444] tracking-[0.3em]">
-          VARIANT.02
+          KUROSEI.STUDIO
         </span>
       </motion.div>
 

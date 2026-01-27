@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowLeft } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 const navItems = [
@@ -35,14 +35,13 @@ export function VariantNavigation() {
       >
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            {/* Back to Main */}
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-[#555] hover:text-white transition-colors group"
+            {/* Contact Link */}
+            <a
+              href="#contact"
+              className="flex items-center gap-2 text-[#555] hover:text-white transition-colors"
             >
-              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-              <span className="font-mono text-[10px] tracking-wider">BACK TO MAIN</span>
-            </Link>
+              <span className="font-mono text-[10px] tracking-wider">GET IN TOUCH</span>
+            </a>
 
             {/* Logo */}
             <Link href="#hero" className="absolute left-1/2 -translate-x-1/2">
@@ -58,7 +57,7 @@ export function VariantNavigation() {
                     KUROSEI
                   </span>
                   <span className="font-mono text-[8px] text-[#444] tracking-widest">
-                    VARIANT 02
+                    CREATIVE STUDIO
                   </span>
                 </div>
               </motion.div>
