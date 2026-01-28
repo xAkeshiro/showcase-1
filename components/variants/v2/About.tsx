@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { VideoPlaceholder } from '@/components/ui/VideoPlaceholder';
+import { useState, useEffect } from 'react';
 
 const services = [
   { name: 'WEB DEVELOPMENT', nameJp: 'ウェブ開発' },
@@ -16,7 +17,46 @@ const stats = [
   { value: '4', label: 'Years' },
 ];
 
+const processSteps = [
+  {
+    num: '01',
+    title: 'DISCOVER',
+    titleJp: 'ディスカバー',
+    desc: 'Understanding your vision and goals',
+    detail: 'We immerse ourselves in your brand, audience, and objectives. Through research and strategic workshops, we uncover the insights that drive every decision forward.',
+  },
+  {
+    num: '02',
+    title: 'DESIGN',
+    titleJp: 'デザイン',
+    desc: 'Crafting the visual direction',
+    detail: 'From wireframes to high-fidelity prototypes, we shape every visual element with intention. Each design choice is purposeful, balancing aesthetics with usability.',
+  },
+  {
+    num: '03',
+    title: 'DEVELOP',
+    titleJp: 'デベロップ',
+    desc: 'Building with precision',
+    detail: 'Clean, performant code meets thoughtful architecture. We build for scale, speed, and maintainability — ensuring your product stands the test of time.',
+  },
+  {
+    num: '04',
+    title: 'DELIVER',
+    titleJp: 'デリバー',
+    desc: 'Launching and refining',
+    detail: 'Launch is just the beginning. We ensure smooth deployment, monitor performance, and iterate based on real user data to continuously improve.',
+  },
+];
+
 export function VariantAbout() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % processSteps.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <section id="about" className="relative bg-black">
       {/* Split Screen Layout */}
@@ -164,31 +204,67 @@ export function VariantAbout() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { num: '01', title: 'DISCOVER', desc: 'Understanding your vision and goals' },
-              { num: '02', title: 'DESIGN', desc: 'Crafting the visual direction' },
-              { num: '03', title: 'DEVELOP', desc: 'Building with precision' },
-              { num: '04', title: 'DELIVER', desc: 'Launching and refining' },
-            ].map((step, index) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="text-center"
-              >
-                <span className="font-display text-4xl text-[#1a1a1a] block mb-4">
-                  {step.num}
-                </span>
-                <h3 className="font-display text-sm text-white tracking-wider mb-2">
-                  {step.title}
-                </h3>
-                <p className="font-body text-xs text-[#555]">
-                  {step.desc}
-                </p>
-              </motion.div>
-            ))}
+            {processSteps.map((step, index) => {
+              const isActive = activeStep === index;
+              return (
+                <motion.div
+                  key={step.num}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  className={`relative text-center border p-6 transition-all duration-500 ${
+                    isActive
+                      ? 'border-[#333] bg-[#0a0a0a]'
+                      : 'border-transparent bg-transparent'
+                  }`}
+                >
+                  {/* Step number */}
+                  <span className={`font-display text-4xl block mb-4 transition-colors duration-500 ${
+                    isActive ? 'text-white/20' : 'text-[#1a1a1a]'
+                  }`}>
+                    {step.num}
+                  </span>
+
+                  {/* Title */}
+                  <h3 className={`font-display text-sm tracking-wider mb-1 transition-colors duration-500 ${
+                    isActive ? 'text-white' : 'text-[#666]'
+                  }`}>
+                    {step.title}
+                  </h3>
+                  <span className={`font-body-jp text-[10px] block mb-3 transition-colors duration-500 ${
+                    isActive ? 'text-[#555]' : 'text-[#333]'
+                  }`}>
+                    {step.titleJp}
+                  </span>
+
+                  {/* Short description */}
+                  <p className={`font-body text-xs mb-0 transition-colors duration-500 ${
+                    isActive ? 'text-[#777]' : 'text-[#555]'
+                  }`}>
+                    {step.desc}
+                  </p>
+
+                  {/* Expanded detail - revealed when active */}
+                  <div className={`grid transition-all duration-500 ease-out ${
+                    isActive ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                  }`}>
+                    <div className="overflow-hidden">
+                      <p className="font-body text-xs text-[#555] leading-relaxed pt-4 border-t border-[#222] mt-4">
+                        {step.detail}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Active indicator line */}
+                  <motion.div
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-white/30"
+                    animate={{ width: isActive ? '40%' : '0%' }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

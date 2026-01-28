@@ -130,17 +130,21 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
               </div>
             </motion.div>
 
-            {/* Title */}
-            <div className="overflow-hidden mb-8">
-              <motion.div
-                initial={{ x: '-100%' }}
-                animate={{ x: 0 }}
-                transition={{ delay: 0.4, duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-              >
-                <h1 className="font-display text-4xl md:text-5xl text-white tracking-[0.2em]">
-                  KUROSEI
-                </h1>
-              </motion.div>
+            {/* Title - letter by letter reveal */}
+            <div className="mb-8">
+              <h1 className="font-display text-4xl md:text-5xl text-white tracking-[0.2em] overflow-hidden">
+                {'KUROSEI'.split('').map((char, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 + i * 0.07, duration: 0.4 }}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </h1>
             </div>
 
             {/* Subtitle */}
