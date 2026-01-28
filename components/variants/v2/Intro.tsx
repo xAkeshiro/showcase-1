@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Globe, Sparkles, Target } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const initiatives = [
   {
@@ -32,6 +32,14 @@ const initiatives = [
 ];
 
 export function VariantIntro() {
+  const [activeCard, setActiveCard] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCard((prev) => (prev + 1) % initiatives.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <section className="relative bg-black py-32 overflow-hidden">
       {/* Background grid */}
@@ -108,6 +116,7 @@ export function VariantIntro() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {initiatives.map((item, index) => {
             const Icon = item.icon;
+            const isActive = activeCard === index;
             return (
               <motion.div
                 key={item.title}
@@ -115,19 +124,29 @@ export function VariantIntro() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.15, duration: 0.6 }}
-                whileHover={{ scale: 1.02 }}
-                className="group relative border border-[#1a1a1a] hover:border-[#444] p-8 transition-all duration-300 hover:bg-[#0a0a0a]"
+                animate={{ scale: isActive ? 1.02 : 1 }}
+                className={`relative border p-8 transition-all duration-500 ${
+                  isActive
+                    ? 'border-[#444] bg-[#0a0a0a]'
+                    : 'border-[#1a1a1a] bg-transparent'
+                }`}
               >
                 {/* Icon */}
-                <div className="w-12 h-12 border border-[#222] group-hover:border-[#444] flex items-center justify-center mb-6 transition-colors">
-                  <Icon size={20} strokeWidth={1} className="text-[#555] group-hover:text-white transition-colors" />
+                <div className={`w-12 h-12 border flex items-center justify-center mb-6 transition-colors duration-500 ${
+                  isActive ? 'border-[#444]' : 'border-[#222]'
+                }`}>
+                  <Icon size={20} strokeWidth={1} className={`transition-colors duration-500 ${
+                    isActive ? 'text-white' : 'text-[#555]'
+                  }`} />
                 </div>
 
                 {/* Title */}
                 <h3 className="font-display text-sm text-white tracking-[0.15em] mb-2">
                   {item.title}
                 </h3>
-                <span className="font-body-jp text-[10px] text-[#444] group-hover:text-[#555] block mb-4 transition-colors">
+                <span className={`font-body-jp text-[10px] block mb-4 transition-colors duration-500 ${
+                  isActive ? 'text-[#555]' : 'text-[#444]'
+                }`}>
                   {item.titleJp}
                 </span>
 
@@ -136,10 +155,14 @@ export function VariantIntro() {
                   {item.description}
                 </p>
 
-                {/* Expanded content - revealed on hover */}
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-out">
+                {/* Expanded content - revealed when active */}
+                <div className={`grid transition-all duration-500 ease-out ${
+                  isActive ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                }`}>
                   <div className="overflow-hidden">
-                    <div className="pt-6 border-t border-[#1a1a1a] group-hover:border-[#222] mt-6 transition-colors">
+                    <div className={`pt-6 border-t mt-6 transition-colors duration-500 ${
+                      isActive ? 'border-[#222]' : 'border-[#1a1a1a]'
+                    }`}>
                       <p className="font-body text-xs text-[#666] leading-relaxed mb-4">
                         {item.expandedContent}
                       </p>
@@ -160,8 +183,16 @@ export function VariantIntro() {
                 </div>
 
                 {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#222] group-hover:border-[#444] group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-[#222] group-hover:border-[#444] group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+                <div className={`absolute top-0 right-0 border-t border-r transition-all duration-300 ${
+                  isActive
+                    ? 'w-6 h-6 border-[#444]'
+                    : 'w-4 h-4 border-[#222]'
+                }`} />
+                <div className={`absolute bottom-0 left-0 border-b border-l transition-all duration-300 ${
+                  isActive
+                    ? 'w-6 h-6 border-[#444]'
+                    : 'w-4 h-4 border-[#222]'
+                }`} />
               </motion.div>
             );
           })}
