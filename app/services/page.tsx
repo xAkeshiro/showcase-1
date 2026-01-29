@@ -326,7 +326,7 @@ export default function ServicesPage() {
               transition={{ delay: 0.2 }}
             >
               <Link
-                href="/v2#contact"
+                href="/#contact"
                 className="inline-flex items-center gap-2 font-mono text-[10px] text-black bg-white px-8 py-3 tracking-wider hover:bg-[#eee] transition-colors"
               >
                 CONTACT US <ArrowRight size={12} />

@@ -308,7 +308,7 @@ export default function AboutPage() {
               className="flex items-center justify-center gap-6"
             >
               <Link
-                href="/v2#contact"
+                href="/#contact"
                 className="font-mono text-[10px] text-black bg-white px-8 py-3 tracking-wider hover:bg-[#eee] transition-colors"
               >
                 GET IN TOUCH

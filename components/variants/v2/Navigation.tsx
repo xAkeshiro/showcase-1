@@ -6,11 +6,11 @@ import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 const navItems = [
-  { label: 'WORK', href: '/v2/work' },
-  { label: 'SERVICES', href: '/v2/services' },
-  { label: 'ABOUT', href: '/v2/about' },
-  { label: 'LAB', href: '/v2/lab' },
-  { label: 'JOURNAL', href: '/v2/blog' },
+  { label: 'WORK', href: '/work' },
+  { label: 'SERVICES', href: '/services' },
+  { label: 'ABOUT', href: '/about' },
+  { label: 'LAB', href: '/lab' },
+  { label: 'JOURNAL', href: '/blog' },
 ];
 
 export function VariantNavigation() {
@@ -74,7 +74,7 @@ export function VariantNavigation() {
                 </a>
 
                 {/* Logo */}
-                <Link href="#hero" className="absolute left-1/2 -translate-x-1/2">
+                <Link href="/" className="absolute left-1/2 -translate-x-1/2">
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     className="flex items-center gap-3"

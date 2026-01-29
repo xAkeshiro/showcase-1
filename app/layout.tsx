@@ -2,12 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ARKNIGHTS | Showcase',
-  description: 'An Arknights-style premium showcase website featuring minimal, monochromatic design inspired by Hypergryph official sites.',
-  keywords: ['Arknights', 'Showcase', 'Rhodes Island', 'Tactical RPG'],
+  title: 'KUROSEI',
+  description: 'KUROSEI Creative Studio - Design + Development + Motion',
   openGraph: {
-    title: 'ARKNIGHTS | Showcase',
-    description: 'An Arknights-style premium showcase website',
+    title: 'KUROSEI',
+    description: 'KUROSEI Creative Studio - Design + Development + Motion',
     type: 'website',
   },
 };
