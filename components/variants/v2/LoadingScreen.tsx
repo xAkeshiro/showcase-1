@@ -108,31 +108,41 @@ export function LoadingScreenV2({ onComplete, minimumLoadTime = 2500 }: LoadingS
           <div className="relative z-10 flex flex-col items-center">
             {/* Logo */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }}
+              initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
               className="mb-12"
             >
-              <div className="relative w-20 h-20 flex items-center justify-center">
+              <div className="relative w-24 h-24">
+                {/* Outer rotating ring */}
                 <motion.div
-                  className="absolute inset-0 border border-[#222]"
+                  className="absolute inset-0 border border-[#333]"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                 />
-                <motion.span
-                  className="text-3xl"
-                  initial={{ opacity: 0, rotate: -180 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                >
-                  ★
-                </motion.span>
+                {/* Inner rotating square */}
+                <motion.div
+                  className="absolute inset-4 border border-[#444] rotate-45"
+                  animate={{ rotate: [45, 405] }}
+                  transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                />
+                {/* Star center */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                    className="text-2xl"
+                  >
+                    ★
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
 
             {/* Title - letter by letter reveal */}
             <div className="mb-8">
-              <h1 className="font-display text-4xl md:text-5xl text-white tracking-[0.2em] overflow-hidden">
+              <h1 className="font-display text-3xl md:text-4xl text-white tracking-[0.3em] overflow-hidden">
                 {'KUROSEI'.split('').map((char, i) => (
                   <motion.span
                     key={i}
