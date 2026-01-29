@@ -6,9 +6,11 @@ import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 const navItems = [
-  { label: 'WORK', href: '#work' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'CONTACT', href: '#contact' },
+  { label: 'WORK', href: '/v2/work' },
+  { label: 'SERVICES', href: '/v2/services' },
+  { label: 'ABOUT', href: '/v2/about' },
+  { label: 'LAB', href: '/v2/lab' },
+  { label: 'JOURNAL', href: '/v2/blog' },
 ];
 
 export function VariantNavigation() {
@@ -102,7 +104,7 @@ export function VariantNavigation() {
                 {/* Desktop Nav */}
                 <div className="hidden md:flex items-center gap-8">
                   {navItems.map((item) => (
-                    <a
+                    <Link
                       key={item.label}
                       href={item.href}
                       className={`font-mono text-[10px] tracking-wider transition-colors duration-300 ${
@@ -110,7 +112,7 @@ export function VariantNavigation() {
                       }`}
                     >
                       {item.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
 
@@ -142,17 +144,20 @@ export function VariantNavigation() {
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
               {navItems.map((item, index) => (
-                <motion.a
+                <motion.div
                   key={item.label}
-                  href={item.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="font-display text-2xl text-white tracking-[0.2em]"
                 >
-                  {item.label}
-                </motion.a>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="font-display text-2xl text-white tracking-[0.2em]"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </motion.div>
