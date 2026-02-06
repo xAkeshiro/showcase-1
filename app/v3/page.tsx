@@ -25,13 +25,13 @@ export default function V3Page() {
         )}
       </AnimatePresence>
 
-      {/* Content fades in after loading */}
+      {/* Content reveals from the right as loader swipes left */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={isLoading ? { opacity: 0 } : { opacity: 1 }}
+        initial={{ opacity: 0, x: 50 }}
+        animate={isLoading ? { opacity: 0, x: 50 } : { opacity: 1, x: 0 }}
         transition={{
-          duration: 1,
-          delay: 0.3,
+          duration: 0.8,
+          delay: 0.2,
           ease: [0.76, 0, 0.24, 1],
         }}
       >

@@ -42,6 +42,14 @@ export function VariantIntro() {
   }, []);
   return (
     <section className="relative bg-black py-32 overflow-hidden">
+      {/* Noise texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
       {/* Background grid */}
       <div
         className="absolute inset-0 opacity-[0.02]"
@@ -50,13 +58,23 @@ export function VariantIntro() {
             linear-gradient(to right, #fff 1px, transparent 1px),
             linear-gradient(to bottom, #fff 1px, transparent 1px)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: '80px 80px',
         }}
       />
 
-      {/* Scanning line */}
+      {/* Large background character */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden">
+        <span className="font-display text-[40vw] text-white/[0.015] leading-none select-none">
+          星
+        </span>
+      </div>
+
+      {/* Scanning line - enhanced */}
       <motion.div
-        className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
+        className="absolute left-0 right-0 h-[1px] pointer-events-none"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+        }}
         animate={{ top: ['0%', '100%'] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
       />
@@ -111,6 +129,34 @@ export function VariantIntro() {
             </div>
           </motion.div>
         </div>
+
+        {/* Card progress indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex items-center justify-center gap-3 mb-12"
+        >
+          {initiatives.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveCard(index)}
+              className="group relative p-2"
+            >
+              <div className={`w-8 h-[2px] transition-all duration-500 ${
+                activeCard === index ? 'bg-white' : 'bg-[#333] group-hover:bg-[#555]'
+              }`} />
+              {activeCard === index && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <div className="w-8 h-[2px] bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                </motion.div>
+              )}
+            </button>
+          ))}
+        </motion.div>
 
         {/* Initiative cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -198,27 +244,37 @@ export function VariantIntro() {
           })}
         </div>
 
-        {/* Bottom stat line */}
+        {/* Bottom stat line - enhanced */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 0.6 }}
           className="mt-24 pt-8 border-t border-[#1a1a1a] flex flex-wrap justify-center gap-12 md:gap-24"
         >
           {[
-            { value: 'TOKYO', label: 'BASE' },
-            { value: 'GLOBAL', label: 'REACH' },
-            { value: '24/7', label: 'SUPPORT' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <span className="font-display text-lg text-white tracking-wider block">
+            { value: 'TOKYO', label: 'BASE', jp: '東京' },
+            { value: 'GLOBAL', label: 'REACH', jp: '世界' },
+            { value: '24/7', label: 'SUPPORT', jp: 'サポート' },
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
+              className="text-center group"
+            >
+              <span className="font-body-jp text-[10px] text-[#333] block mb-1 group-hover:text-[#555] transition-colors">
+                {stat.jp}
+              </span>
+              <span className="font-display text-xl text-white tracking-wider block group-hover:tracking-[0.2em] transition-all">
                 {stat.value}
               </span>
               <span className="font-mono text-[9px] text-[#444] tracking-wider">
                 {stat.label}
               </span>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>

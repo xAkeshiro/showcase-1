@@ -26,7 +26,7 @@ export function LoadingScreenV3({ onComplete, minimumLoadTime = 3000 }: LoadingS
         setPhase('complete');
         setTimeout(() => {
           setPhase('exit');
-          setTimeout(onComplete, 1200);
+          setTimeout(onComplete, 1000);
         }, 800);
       }
     }, 16);
@@ -39,8 +39,8 @@ export function LoadingScreenV3({ onComplete, minimumLoadTime = 3000 }: LoadingS
       {phase !== 'exit' && (
         <motion.div
           className="fixed inset-0 z-[100] bg-black overflow-hidden"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+          exit={{ x: '-100%' }}
+          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
           {/* Noise texture overlay */}
           <div

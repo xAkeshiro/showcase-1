@@ -58,7 +58,44 @@ export function VariantAbout() {
     return () => clearInterval(interval);
   }, []);
   return (
-    <section id="about" className="relative bg-black">
+    <section id="about" className="relative bg-black overflow-hidden">
+      {/* Noise texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none z-0"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #fff 1px, transparent 1px),
+            linear-gradient(to bottom, #fff 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+        }}
+      />
+
+      {/* Large background character */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none">
+        <span className="font-display text-[40vw] text-white/[0.015] leading-none select-none">
+          私
+        </span>
+      </div>
+
+      {/* Scanning line */}
+      <motion.div
+        className="absolute left-0 right-0 h-[1px] pointer-events-none"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
+        }}
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+      />
+
       {/* Split Screen Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
         {/* Left - Content */}
@@ -196,11 +233,39 @@ export function VariantAbout() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
             <span className="font-mono text-[10px] text-[#444] tracking-wider">
               HOW WE WORK
             </span>
+          </motion.div>
+
+          {/* Process progress indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-center gap-3 mb-12"
+          >
+            {processSteps.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveStep(index)}
+                className="group relative p-2"
+              >
+                <div className={`w-8 h-[2px] transition-all duration-500 ${
+                  activeStep === index ? 'bg-white' : 'bg-[#333] group-hover:bg-[#555]'
+                }`} />
+                {activeStep === index && (
+                  <motion.div
+                    layoutId="activeStepIndicator"
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="w-8 h-[2px] bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+                  </motion.div>
+                )}
+              </button>
+            ))}
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -266,6 +331,24 @@ export function VariantAbout() {
               );
             })}
           </div>
+
+          {/* Bottom section indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-16 pt-8 border-t border-[#1a1a1a] flex items-center justify-between"
+          >
+            <div className="flex items-center gap-4">
+              <span className="font-body-jp text-[10px] text-[#333]">
+                私たちについて
+              </span>
+              <div className="w-8 h-[1px] bg-[#222]" />
+            </div>
+            <span className="font-mono text-[9px] text-[#333] tracking-wider">
+              // 04 / ABOUT
+            </span>
+          </motion.div>
         </div>
       </div>
     </section>

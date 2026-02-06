@@ -13,8 +13,35 @@ const socialLinks = [
 
 export function VariantContact() {
   return (
-    <section id="contact" className="relative bg-white py-32">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="contact" className="relative bg-white py-32 overflow-hidden">
+      {/* Noise texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.015] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Background grid - subtle */}
+      <div
+        className="absolute inset-0 opacity-[0.3]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #f5f5f5 1px, transparent 1px),
+            linear-gradient(to bottom, #f5f5f5 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+        }}
+      />
+
+      {/* Large background character */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+        <span className="font-display text-[35vw] text-black/[0.015] leading-none select-none">
+          連
+        </span>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Main CTA */}
         <motion.div
           initial={{ opacity: 0, y: 60 }}
@@ -37,9 +64,9 @@ export function VariantContact() {
 
           <motion.a
             href="mailto:hello@kurosei.studio"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-12 py-5 bg-black text-white font-display text-sm tracking-[0.2em] hover:bg-[#222] transition-colors group"
+            className="inline-flex items-center gap-3 px-12 py-5 bg-black text-white font-display text-sm tracking-[0.2em] hover:bg-[#111] transition-all duration-300 group"
           >
             GET IN TOUCH
             <ArrowUpRight
@@ -155,6 +182,24 @@ export function VariantContact() {
             </Link>
           </div>
         </div>
+
+        {/* Section indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-16 pt-8 border-t border-[#eee] flex items-center justify-between"
+        >
+          <div className="flex items-center gap-4">
+            <span className="font-body-jp text-[10px] text-[#ccc]">
+              お問い合わせ
+            </span>
+            <div className="w-8 h-[1px] bg-[#ddd]" />
+          </div>
+          <span className="font-mono text-[9px] text-[#ccc] tracking-wider">
+            // 05 / CONTACT
+          </span>
+        </motion.div>
       </div>
     </section>
   );

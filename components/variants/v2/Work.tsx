@@ -59,6 +59,33 @@ export function VariantWork() {
       id="work"
       className="relative bg-white py-32 overflow-hidden"
     >
+      {/* Noise texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.015] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Background grid - subtle */}
+      <div
+        className="absolute inset-0 opacity-[0.3]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #f5f5f5 1px, transparent 1px),
+            linear-gradient(to bottom, #f5f5f5 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+        }}
+      />
+
+      {/* Large background character */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden">
+        <span className="font-display text-[35vw] text-black/[0.015] leading-none select-none">
+          作
+        </span>
+      </div>
+
       {/* Section Header */}
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <motion.div
@@ -152,9 +179,29 @@ export function VariantWork() {
         ))}
       </motion.div>
 
-      {/* Bottom Line */}
+      {/* Bottom Line & Scroll hint */}
       <div className="max-w-7xl mx-auto px-6 mt-16">
         <div className="h-[1px] bg-[#eee]" />
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex items-center justify-between mt-6"
+        >
+          <div className="flex items-center gap-3">
+            <motion.div
+              animate={{ x: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-8 h-[1px] bg-[#ccc]"
+            />
+            <span className="font-mono text-[9px] text-[#aaa] tracking-wider">
+              SCROLL TO EXPLORE
+            </span>
+          </div>
+          <span className="font-mono text-[9px] text-[#ccc] tracking-wider">
+            // 03 / WORK
+          </span>
+        </motion.div>
       </div>
     </section>
   );
