@@ -48,10 +48,11 @@ export function VariantWork() {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end start'],
+    offset: ['start 0.3', 'end start'],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
+  // Delay the start of horizontal scroll until section is more visible
+  const x = useTransform(scrollYProgress, [0, 0.15, 1], ['0%', '0%', '-30%']);
 
   return (
     <section

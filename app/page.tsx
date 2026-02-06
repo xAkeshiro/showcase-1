@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LoadingScreenV2 } from '@/components/variants/v2/LoadingScreen';
+import { LoadingScreenV3 } from '@/components/variants/v3/LoadingScreen';
+import { V3Hero } from '@/components/variants/v3/Hero';
 import { VariantNavigation } from '@/components/variants/v2/Navigation';
-import { VariantHero } from '@/components/variants/v2/Hero';
 import { VariantIntro } from '@/components/variants/v2/Intro';
 import { VariantWork } from '@/components/variants/v2/Work';
 import { VariantAbout } from '@/components/variants/v2/About';
@@ -21,7 +21,7 @@ export default function Home() {
     <div className="bg-white min-h-screen">
       <AnimatePresence mode="wait">
         {isLoading && (
-          <LoadingScreenV2 onComplete={handleLoadComplete} minimumLoadTime={2500} />
+          <LoadingScreenV3 onComplete={handleLoadComplete} minimumLoadTime={3000} />
         )}
       </AnimatePresence>
 
@@ -37,7 +37,7 @@ export default function Home() {
       >
         <VariantNavigation />
         <main>
-          <VariantHero />
+          <V3Hero />
           <VariantIntro />
           <VariantWork />
           <VariantAbout />
