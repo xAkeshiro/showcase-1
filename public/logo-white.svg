@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Outer square -->
+  <rect x="20" y="20" width="160" height="160" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- Middle square - rotated 45deg -->
+  <rect x="50" y="50" width="100" height="100" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.3" transform="rotate(45 100 100)"/>
+
+  <!-- Inner square - rotated 15deg -->
+  <rect x="65" y="65" width="70" height="70" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.2" transform="rotate(15 100 100)"/>
+
+  <!-- Star center -->
+  <text x="100" y="115" font-size="48" fill="#FFFFFF" text-anchor="middle" font-family="Arial, sans-serif">&#9733;</text>
+</svg>
