@@ -88,11 +88,11 @@ const fragmentShader = `
     float g = snoise(uvG * 6.0 + uTime * 0.3 + 50.0) * 0.5 + 0.5;
     float b = snoise(uvB * 6.0 + uTime * 0.3 + 100.0) * 0.5 + 0.5;
 
-    // Color output
-    vec3 col = vec3(r * 0.2, g * 0.05, b * 0.25);
+    // Color output - blue tinted, cleaner
+    vec3 col = vec3(r * 0.02, g * 0.02, b * 0.08);
 
-    // Scanlines
-    float scanline = sin(uv.y * uResolution.y * 1.5) * 0.02;
+    // Very subtle scanlines
+    float scanline = sin(uv.y * uResolution.y * 1.0) * 0.005;
     col += scanline;
 
     // Vignette

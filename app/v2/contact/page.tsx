@@ -47,8 +47,8 @@ export default function V2ContactPage() {
           className="flex gap-12 whitespace-nowrap"
         >
           {Array(10).fill('ACCEPTING NEW PROJECTS').map((text, i) => (
-            <span key={i} className="font-mono text-[10px] text-white/30 tracking-widest">
-              {text} ★
+            <span key={i} className="font-mono text-[10px] text-white/20 tracking-widest">
+              {text} <span className="text-[#00f]/50">★</span>
             </span>
           ))}
         </motion.div>
@@ -143,7 +143,7 @@ export default function V2ContactPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-white/40 focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-[#00f]/60 focus:outline-none transition-colors"
                     placeholder="John Doe"
                   />
                 </div>
@@ -158,7 +158,7 @@ export default function V2ContactPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-white/40 focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-[#00f]/60 focus:outline-none transition-colors"
                     placeholder="john@company.com"
                   />
                 </div>
@@ -172,7 +172,7 @@ export default function V2ContactPage() {
                     type="text"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-white/40 focus:outline-none transition-colors"
+                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-[#00f]/60 focus:outline-none transition-colors"
                     placeholder="Company Inc."
                   />
                 </div>
@@ -187,7 +187,7 @@ export default function V2ContactPage() {
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-white/40 focus:outline-none transition-colors resize-none"
+                    className="w-full bg-transparent border-b border-white/10 py-3 font-body text-white placeholder:text-white/20 focus:border-[#00f]/60 focus:outline-none transition-colors resize-none"
                     placeholder="Tell us about your project..."
                   />
                 </div>
@@ -197,7 +197,7 @@ export default function V2ContactPage() {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full flex items-center justify-center gap-3 px-8 py-5 bg-white text-black font-display text-sm tracking-[0.2em] hover:bg-white/90 transition-colors group mt-12"
+                  className="w-full flex items-center justify-center gap-3 px-8 py-5 bg-white text-black font-display text-sm tracking-[0.2em] hover:bg-[#00f] hover:text-white transition-colors group mt-12"
                   data-cursor="pointer"
                 >
                   SAY HI

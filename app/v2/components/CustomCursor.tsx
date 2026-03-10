@@ -81,7 +81,7 @@ export function CustomCursor() {
           ...(isPointer ? { width: 6, height: 6, background: '#fff' } : {}),
         }}
       />
-      {/* Outer ring - trails behind with lerp */}
+      {/* Outer ring - trails behind with lerp, blue accent on hover */}
       <div
         ref={ringRef}
         style={{
@@ -91,12 +91,12 @@ export function CustomCursor() {
           width: 40,
           height: 40,
           borderRadius: '50%',
-          border: '1px solid rgba(255, 255, 255, 0.5)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
           zIndex: 10000,
           pointerEvents: 'none',
           transition: 'transform 0.1s ease-out, border-color 0.2s, opacity 0.2s',
-          opacity: isPointer ? 0.8 : 0.4,
-          borderColor: isPointer ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+          opacity: isPointer ? 1 : 0.3,
+          borderColor: isPointer ? 'rgba(0, 0, 255, 0.8)' : 'rgba(255, 255, 255, 0.3)',
         }}
       />
     </>

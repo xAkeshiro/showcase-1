@@ -30,9 +30,9 @@ export default function V2WorkPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Chromatic overlay */}
+      {/* Very subtle chromatic overlay - reduced for cleanliness */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <ChromaticOverlay intensity={0.15} style={{ opacity: 0.3 }} />
+        <ChromaticOverlay intensity={0.08} style={{ opacity: 0.15 }} />
       </div>
 
       {/* Header */}
@@ -81,8 +81,8 @@ export default function V2WorkPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`font-mono text-[10px] tracking-wider px-4 py-2 border transition-all duration-300 ${
                   activeCategory === cat
-                    ? 'text-black bg-white border-white'
-                    : 'text-white/40 border-white/10 hover:border-white/30 hover:text-white/60'
+                    ? 'text-white bg-[#00f] border-[#00f]'
+                    : 'text-white/40 border-white/10 hover:border-[#00f]/50 hover:text-white/60'
                 }`}
                 data-cursor="pointer"
               >

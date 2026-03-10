@@ -164,7 +164,7 @@ export default function V2Home() {
                 <motion.div
                   animate={{ x: [0, 10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-16 h-[1px] bg-gradient-to-r from-white/20 to-transparent"
+                  className="w-16 h-[1px] bg-gradient-to-r from-[#00f]/50 to-transparent"
                 />
               </div>
             </div>
@@ -205,11 +205,11 @@ export default function V2Home() {
                   <span className="text-[clamp(3rem,8vw,6rem)] text-white select-none">★</span>
                 </div>
 
-                {/* Orbital dots */}
+                {/* Orbital dots - blue accent */}
                 {[0, 120, 240].map((angle, i) => (
                   <motion.div
                     key={angle}
-                    className="absolute w-2 h-2 bg-white/30 rounded-full"
+                    className="absolute w-2 h-2 bg-[#00f]/50 rounded-full"
                     style={{ top: '50%', left: '50%' }}
                     animate={{
                       x: [Math.cos((angle * Math.PI) / 180) * 100, Math.cos(((angle + 360) * Math.PI) / 180) * 100],
@@ -444,7 +444,7 @@ export default function V2Home() {
             <a
               href="/v2/contact"
               onClick={(e) => navigate('/v2/contact', e)}
-              className="inline-flex items-center gap-3 px-12 py-5 bg-white text-black font-display text-sm tracking-[0.2em] hover:bg-white/90 transition-colors group"
+              className="inline-flex items-center gap-3 px-12 py-5 bg-white text-black font-display text-sm tracking-[0.2em] hover:bg-[#00f] hover:text-white transition-colors group"
               data-cursor="pointer"
             >
               LET&apos;S TALK

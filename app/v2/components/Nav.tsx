@@ -55,7 +55,7 @@ export function Nav() {
                 {isActive && (
                   <motion.div
                     layoutId="navIndicator"
-                    className="absolute -bottom-1 left-0 right-0 h-[1px] bg-white"
+                    className="absolute -bottom-1 left-0 right-0 h-[1px] bg-[#00f]"
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 )}

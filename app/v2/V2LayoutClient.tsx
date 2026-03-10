@@ -14,10 +14,12 @@ export function V2LayoutClient({ children }: V2LayoutClientProps) {
   return (
     <V2LayoutProvider>
       <div style={{ cursor: 'none', minHeight: '100vh', background: '#0a0a0a' }}>
-        {/* Global chromatic text styles */}
+        {/* Global styles */}
         <style jsx global>{`
+          /* Clean chromatic text - subtle, only on hover */
           .chromatic-text {
             position: relative;
+            transition: all 0.3s ease;
           }
           .chromatic-text::before,
           .chromatic-text::after {
@@ -28,22 +30,31 @@ export function V2LayoutClient({ children }: V2LayoutClientProps) {
             width: 100%;
             height: 100%;
             pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
           }
           .chromatic-text::before {
-            color: rgba(255, 0, 80, 0.35);
-            transform: translate(-3px, -2px);
+            color: rgba(0, 0, 255, 0.15);
             z-index: -1;
           }
           .chromatic-text::after {
-            color: rgba(0, 200, 255, 0.35);
-            transform: translate(3px, 2px);
+            color: rgba(255, 255, 255, 0.1);
             z-index: -1;
           }
           .chromatic-text:hover::before {
-            transform: translate(-5px, -3px);
+            opacity: 1;
+            transform: translate(-2px, -1px);
           }
           .chromatic-text:hover::after {
-            transform: translate(5px, 3px);
+            opacity: 1;
+            transform: translate(2px, 1px);
+          }
+
+          /* Blue accent color */
+          :root {
+            --accent: #00f;
+            --accent-dim: rgba(0, 0, 255, 0.5);
+            --accent-subtle: rgba(0, 0, 255, 0.15);
           }
         `}</style>
 

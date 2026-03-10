@@ -90,29 +90,28 @@ export function PageTransition() {
         }}
       />
 
-      {/* Chromatic edge glow during transition */}
+      {/* Blue edge glow during transition */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.4,
+          opacity: 0.25,
           background: `radial-gradient(circle at ${origin.x}px ${origin.y}px,
-            rgba(255, 0, 80, 0.3) 0%,
-            rgba(0, 200, 255, 0.2) 30%,
-            rgba(120, 0, 255, 0.3) 60%,
-            transparent 100%)`,
+            rgba(0, 0, 255, 0.3) 0%,
+            rgba(0, 0, 255, 0.1) 50%,
+            transparent 80%)`,
           mixBlendMode: 'screen',
         }}
       />
 
-      {/* Edge ring glow */}
+      {/* Clean blue edge ring */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           background: `radial-gradient(circle at ${origin.x}px ${origin.y}px,
-            transparent ${Math.max(0, radius - 80)}px,
-            rgba(255, 255, 255, 0.1) ${Math.max(0, radius - 40)}px,
+            transparent ${Math.max(0, radius - 50)}px,
+            rgba(0, 0, 255, 0.2) ${Math.max(0, radius - 25)}px,
             rgba(255, 255, 255, 0.05) ${radius}px,
             transparent ${radius + 1}px)`,
         }}

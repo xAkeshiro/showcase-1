@@ -40,10 +40,10 @@ export default function V2AboutPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Hero section with heavy chromatic effect */}
+      {/* Hero section */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden">
-        {/* Chromatic overlay - more intense here */}
-        <ChromaticOverlay intensity={1.5} style={{ opacity: 0.25 }} />
+        {/* Subtle chromatic overlay */}
+        <ChromaticOverlay intensity={0.5} style={{ opacity: 0.1 }} />
 
         {/* Grid */}
         <div
@@ -151,7 +151,7 @@ export default function V2AboutPage() {
                 className="group flex items-center gap-6 py-4 border-b border-white/5 hover:border-white/15 transition-colors"
               >
                 <span className="font-mono text-[9px] text-white/15 w-8">{String(index + 1).padStart(2, '0')}</span>
-                <span className="font-display text-lg text-white/60 tracking-wider group-hover:text-white group-hover:tracking-[0.15em] transition-all">
+                <span className="font-display text-lg text-white/60 tracking-wider group-hover:text-[#00f] group-hover:tracking-[0.15em] transition-all">
                   {service}
                 </span>
               </motion.div>
@@ -209,7 +209,7 @@ export default function V2AboutPage() {
 
       {/* Philosophy */}
       <section className="relative py-32 border-t border-white/5 overflow-hidden">
-        <ChromaticOverlay intensity={0.8} style={{ opacity: 0.15 }} />
+        <ChromaticOverlay intensity={0.3} style={{ opacity: 0.08 }} />
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
           <motion.div

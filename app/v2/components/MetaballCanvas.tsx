@@ -104,8 +104,8 @@ const fragmentShader = `
     vec3 edgeColor = mix(uBlobColor, uBgColor, 0.3);
     col += edgeColor * edge * 0.5;
 
-    // Film grain
-    float grain = (fract(sin(dot(uv * uTime, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.03;
+    // Subtle film grain (reduced)
+    float grain = (fract(sin(dot(uv * uTime, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.008;
     col += grain;
 
     gl_FragColor = vec4(col, 1.0);
