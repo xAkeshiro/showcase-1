@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 
 const socialLinks = [
   { name: 'TWITTER', href: '#' },
@@ -168,10 +169,18 @@ export function VariantContact() {
             ))}
           </div>
 
-          {/* Copyright */}
-          <span className="font-mono text-[9px] text-[#999] tracking-wider">
-            © 2026 KUROSEI
-          </span>
+          {/* Copyright & V2 Link */}
+          <div className="flex items-center gap-6">
+            <span className="font-mono text-[9px] text-[#999] tracking-wider">
+              © 2026 KUROSEI
+            </span>
+            <Link
+              href="/v2"
+              className="font-mono text-[9px] text-[#ccc] hover:text-black tracking-wider transition-colors"
+            >
+              V2 WebGL →
+            </Link>
+          </div>
         </div>
 
         {/* Section indicator */}
