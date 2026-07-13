@@ -1,102 +1,96 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
-import { useMouse } from './V2LayoutProvider';
+import { useEffect, useRef, useState } from 'react';
+import { useMouseRef } from './V2LayoutProvider';
+
+// Dot follows the cursor exactly; ring trails with a lerp.
+// All per-frame positioning is written straight to the DOM — the only
+// React state here is low-frequency (visibility / hover class).
 
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const ringPos = useRef({ x: 0, y: 0 });
-  const mouse = useMouse();
-  const [isPointer, setIsPointer] = useState(false);
+  const mouseRef = useMouseRef();
+  const ringPos = useRef({ x: -100, y: -100 });
+  const hoverRef = useRef(false);
   const [visible, setVisible] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
 
   useEffect(() => {
-    // Only show on devices with fine pointer (not touch)
-    const hasPointer = window.matchMedia('(pointer: fine)').matches;
-    if (!hasPointer) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
 
-    setVisible(true);
-
-    // Track hover state for interactive elements
-    const handleMouseOver = (e: MouseEvent) => {
+    const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement;
-      const interactive = el.closest('a, button, [role="button"], input, textarea, select, [data-cursor="pointer"]');
-      setIsPointer(!!interactive);
+      hoverRef.current = !!el.closest(
+        'a, button, [role="button"], input, textarea, select, label, [data-cursor="pointer"]'
+      );
     };
+    window.addEventListener('mouseover', onOver, { passive: true });
 
-    const handleMouseDown = () => setIsPressed(true);
-    const handleMouseUp = () => setIsPressed(false);
+    let raf = 0;
+    let shown = false;
+    const tick = () => {
+      if (!shown) {
+        shown = true;
+        setVisible(true);
+      }
+      const m = mouseRef.current;
+      ringPos.current.x += (m.x - ringPos.current.x) * 0.14;
+      ringPos.current.y += (m.y - ringPos.current.y) * 0.14;
 
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-
-    // Animation loop for smooth ring following
-    let raf: number;
-    const animate = () => {
-      // Lerp ring position toward mouse
-      ringPos.current.x += (mouse.x - ringPos.current.x) * 0.12;
-      ringPos.current.y += (mouse.y - ringPos.current.y) * 0.12;
+      const hovering = hoverRef.current;
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${mouse.x - 5}px, ${mouse.y - 5}px) scale(${isPressed ? 0.8 : 1})`;
+        dotRef.current.style.transform = `translate3d(${m.x - 4}px, ${m.y - 4}px, 0) scale(${hovering ? 0.5 : 1})`;
       }
       if (ringRef.current) {
-        const scale = isPointer ? 1.5 : isPressed ? 0.9 : 1;
-        ringRef.current.style.transform = `translate(${ringPos.current.x - 20}px, ${ringPos.current.y - 20}px) scale(${scale})`;
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x - 18}px, ${ringPos.current.y - 18}px, 0) scale(${hovering ? 1.5 : 1})`;
+        ringRef.current.style.borderColor = hovering
+          ? 'rgba(51, 51, 255, 0.9)'
+          : 'rgba(255, 255, 255, 0.3)';
       }
-      raf = requestAnimationFrame(animate);
+      raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(tick);
 
     return () => {
-      window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('mouseover', onOver);
       cancelAnimationFrame(raf);
     };
-  }, [mouse.x, mouse.y, isPointer, isPressed]);
+  }, [mouseRef]);
 
   if (!visible) return null;
 
   return (
     <>
-      {/* Inner dot - follows mouse immediately */}
       <div
         ref={dotRef}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: 10,
-          height: 10,
+          width: 8,
+          height: 8,
           borderRadius: '50%',
           background: '#fff',
+          mixBlendMode: 'difference',
           zIndex: 10001,
           pointerEvents: 'none',
-          mixBlendMode: 'difference',
-          transition: 'width 0.15s, height 0.15s, background 0.15s',
-          ...(isPointer ? { width: 6, height: 6, background: '#fff' } : {}),
+          transition: 'opacity 0.2s',
         }}
       />
-      {/* Outer ring - trails behind with lerp, blue accent on hover */}
       <div
         ref={ringRef}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: 40,
-          height: 40,
+          width: 36,
+          height: 36,
           borderRadius: '50%',
           border: '1px solid rgba(255, 255, 255, 0.3)',
           zIndex: 10000,
           pointerEvents: 'none',
-          transition: 'transform 0.1s ease-out, border-color 0.2s, opacity 0.2s',
-          opacity: isPointer ? 1 : 0.3,
-          borderColor: isPointer ? 'rgba(0, 0, 255, 0.8)' : 'rgba(255, 255, 255, 0.3)',
+          transition: 'border-color 0.25s ease',
         }}
       />
     </>

@@ -1,164 +1,133 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
-import { useNav } from '../components/V2LayoutProvider';
-import { ChromaticOverlay } from '../components/ChromaticOverlay';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import { TransitionLink } from '../components/TransitionLink';
+import { FadeUp, RevealText, SectionLabel } from '../components/Reveal';
+import { Footer } from '../components/Footer';
 import { VideoPlaceholder } from '@/components/ui/VideoPlaceholder';
+import { projects, categories } from '../lib/projects';
 
-const categories = ['ALL', 'BRANDING', 'WEB', 'MOTION', 'CAMPAIGN'];
-
-const allProjects = [
-  { id: 1, title: 'NOVA', subtitle: 'RETAIL', category: 'WEB', year: '2026', color: '#6432ff', prompt: 'E-commerce dark theme' },
-  { id: 2, title: 'APEX', subtitle: 'STUDIOS', category: 'BRANDING', year: '2026', color: '#3264ff', prompt: 'Brand identity reveal' },
-  { id: 3, title: 'HORIZON', subtitle: 'TECH', category: 'WEB', year: '2025', color: '#ff5050', prompt: 'Tech startup site' },
-  { id: 4, title: 'STELLAR', subtitle: 'AUDIO', category: 'CAMPAIGN', year: '2025', color: '#50b478', prompt: 'Product launch' },
-  { id: 5, title: 'ZENITH', subtitle: 'FINANCE', category: 'WEB', year: '2025', color: '#f0a030', prompt: 'Financial dashboard' },
-  { id: 6, title: 'PULSE', subtitle: 'HEALTH', category: 'MOTION', year: '2025', color: '#e040a0', prompt: 'Health app animations' },
-  { id: 7, title: 'VERTEX', subtitle: 'GAMING', category: 'BRANDING', year: '2024', color: '#40e0d0', prompt: 'Gaming brand identity' },
-  { id: 8, title: 'FLUX', subtitle: 'CREATIVE', category: 'MOTION', year: '2024', color: '#ff6b6b', prompt: 'Creative studio reel' },
-];
+const EASE = [0.76, 0, 0.24, 1] as const;
 
 export default function V2WorkPage() {
-  const { navigate } = useNav();
-  const [activeCategory, setActiveCategory] = useState('ALL');
+  const [active, setActive] = useState<(typeof categories)[number]>('ALL');
 
-  const filteredProjects = activeCategory === 'ALL'
-    ? allProjects
-    : allProjects.filter(p => p.category === activeCategory);
+  const filtered = active === 'ALL' ? projects : projects.filter((p) => p.category === active);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Very subtle chromatic overlay - reduced for cleanliness */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <ChromaticOverlay intensity={0.08} style={{ opacity: 0.15 }} />
-      </div>
-
+    <div className="bg-[#050505] min-h-screen">
       {/* Header */}
-      <header className="relative z-10 pt-24 pb-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Back button */}
-          <motion.a
-            href="/v2"
-            onClick={(e) => navigate('/v2', e)}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-2 font-mono text-[10px] text-white/30 hover:text-white tracking-wider transition-colors mb-12 group"
-            data-cursor="pointer"
-          >
-            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-            BACK
-          </motion.a>
+      <header className="relative pt-36 pb-16 overflow-hidden">
+        <div className="v2-grid" />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10">
+          <SectionLabel label="ALL PROJECTS" index={`${projects.length} TOTAL`} className="mb-10" />
 
-          {/* Title */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <span className="font-mono text-[10px] text-white/20 tracking-wider block mb-4">
-              ALL PROJECTS
+          <h1 className="font-display text-[clamp(3.5rem,12vw,10rem)] text-white tracking-[0.02em] leading-[0.85] mb-4">
+            <RevealText>WORKS</RevealText>
+          </h1>
+          <FadeUp delay={0.15}>
+            <span className="font-body-jp text-sm text-white/25 tracking-[0.2em]">
+              作品集 — Selected projects, 2024 to 2026
             </span>
-            <h1
-              className="font-display text-[clamp(3rem,10vw,8rem)] text-white tracking-[0.02em] leading-none chromatic-text"
-              data-text="WORKS"
-            >
-              WORKS
-            </h1>
-          </motion.div>
+          </FadeUp>
 
-          {/* Category filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-wrap gap-4 mt-12"
-          >
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`font-mono text-[10px] tracking-wider px-4 py-2 border transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'text-white bg-[#00f] border-[#00f]'
-                    : 'text-white/40 border-white/10 hover:border-[#00f]/50 hover:text-white/60'
-                }`}
-                data-cursor="pointer"
-              >
-                {cat}
-              </button>
-            ))}
-          </motion.div>
+          {/* Filters */}
+          <FadeUp delay={0.25} className="flex flex-wrap gap-3 mt-14">
+            {categories.map((cat) => {
+              const count =
+                cat === 'ALL' ? projects.length : projects.filter((p) => p.category === cat).length;
+              const isActive = active === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActive(cat)}
+                  className={`group flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] px-5 py-2.5 border transition-all duration-300 ${
+                    isActive
+                      ? 'bg-[#00f] border-[#00f] text-white'
+                      : 'border-white/10 text-white/40 hover:border-[#00f]/60 hover:text-white/70'
+                  }`}
+                  data-cursor="pointer"
+                >
+                  {cat}
+                  <span className={isActive ? 'text-white/60' : 'text-white/20'}>{count}</span>
+                </button>
+              );
+            })}
+          </FadeUp>
         </div>
       </header>
 
-      {/* Projects Grid */}
-      <section className="relative z-10 px-6 pb-32">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
+      {/* Grid */}
+      <section className="max-w-[1400px] mx-auto px-6 md:px-10 pb-32">
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((project, i) => (
               <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 40 }}
+                key={project.slug}
+                layout
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + index * 0.05 }}
-                className="group"
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.5, ease: EASE, delay: i * 0.04 }}
+                className={i % 4 === 1 || i % 4 === 2 ? 'md:mt-16' : ''}
               >
-                {/* Thumbnail */}
-                <div className="relative overflow-hidden mb-4 border border-white/5 group-hover:border-white/15 transition-colors">
-                  <VideoPlaceholder
-                    prompt={project.prompt}
-                    aspectRatio="square"
-                    theme="dark"
-                    label={project.title}
-                    className="w-full group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  {/* Color overlay */}
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500 mix-blend-overlay"
-                    style={{ background: project.color }}
-                  />
-
-                  {/* Chromatic flash on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-cyan-500/10" />
+                <TransitionLink href={`/v2/work/${project.slug}`} className="group block">
+                  {/* Media */}
+                  <div className="relative overflow-hidden border border-white/8 group-hover:border-[#00f]/40 transition-colors duration-500 mb-6">
+                    <div className="group-hover:scale-[1.03] transition-transform duration-700 ease-out">
+                      <VideoPlaceholder
+                        prompt={project.cover.prompt}
+                        aspectRatio="video"
+                        theme="dark"
+                        label={project.title}
+                        showPlayIcon={false}
+                      />
+                    </div>
+                    {/* Blue wash on hover */}
+                    <div className="absolute inset-0 bg-[#00f] opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500 pointer-events-none" />
+                    {/* Case study tag */}
+                    <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
+                      <span className="font-mono text-[9px] text-white tracking-[0.2em] px-3 py-1.5 bg-[#00f]">
+                        CASE STUDY →
+                      </span>
+                    </div>
                   </div>
 
-                  {/* View label */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="font-mono text-[9px] text-white tracking-wider px-3 py-1.5 border border-white/50 backdrop-blur-sm bg-black/40">
-                      VIEW
-                    </span>
+                  {/* Meta */}
+                  <div className="flex items-start justify-between gap-4 px-1">
+                    <div>
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="font-mono text-[9px] text-[#3333ff] tracking-[0.2em]">
+                          {project.category}
+                        </span>
+                        <span className="w-5 h-[1px] bg-white/15" />
+                        <span className="font-mono text-[9px] text-white/25 tracking-wider">
+                          {project.year}
+                        </span>
+                      </div>
+                      <h3 className="font-display text-xl md:text-2xl text-white/85 group-hover:text-white tracking-[0.06em] transition-colors">
+                        {project.title}
+                        <span className="text-white/25 ml-2 text-base">{project.subtitle}</span>
+                      </h3>
+                      <p className="font-body text-xs text-white/30 mt-2 max-w-md leading-relaxed">
+                        {project.tagline}
+                      </p>
+                    </div>
+                    <ArrowUpRight
+                      size={18}
+                      className="shrink-0 mt-1 text-white/20 group-hover:text-[#00f] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"
+                    />
                   </div>
-                </div>
-
-                {/* Info */}
-                <div className="flex items-start justify-between">
-                  <div>
-                    <span className="font-mono text-[9px] text-white/20 block mb-1">{project.category}</span>
-                    <h3 className="font-display text-lg text-white tracking-wider">
-                      {project.title}
-                      <span className="text-white/30 ml-1 text-sm">{project.subtitle}</span>
-                    </h3>
-                  </div>
-                  <span className="font-mono text-[9px] text-white/15">{project.year}</span>
-                </div>
+                </TransitionLink>
               </motion.div>
             ))}
-          </div>
-        </div>
+          </AnimatePresence>
+        </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 py-8 border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <span className="font-mono text-[9px] text-white/15 tracking-wider">
-            {filteredProjects.length} PROJECTS
-          </span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,132 +1,123 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  ReactNode,
+  MutableRefObject,
+} from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-// ─── Mouse Context ───────────────────────────────────────
-interface MouseCtx {
+// ─── Mouse (ref-based: never triggers re-renders) ────────
+// Consumers read this ref inside their own rAF loops. Updating a ref on
+// mousemove instead of state is what keeps the WebGL layers from being
+// torn down and rebuilt while the cursor moves.
+
+export interface MousePosition {
   x: number;
   y: number;
-  normalized: { x: number; y: number };
+  nx: number; // normalized 0-1
+  ny: number; // normalized 0-1, flipped for GL
 }
 
-const MouseContext = createContext<MouseCtx>({
-  x: 0,
-  y: 0,
-  normalized: { x: 0.5, y: 0.5 },
-});
+const MouseRefContext = createContext<MutableRefObject<MousePosition> | null>(null);
 
-export const useMouse = () => useContext(MouseContext);
+export function useMouseRef(): MutableRefObject<MousePosition> {
+  const ref = useContext(MouseRefContext);
+  if (!ref) throw new Error('useMouseRef must be used inside V2LayoutProvider');
+  return ref;
+}
 
-// ─── Navigation Context ──────────────────────────────────
+// ─── Navigation with click-origin transitions ────────────
+
+export type TransitionPhase = 'idle' | 'expanding' | 'hold' | 'contracting';
+
 interface NavCtx {
   navigate: (href: string, e: React.MouseEvent) => void;
   isTransitioning: boolean;
 }
 
-const NavContext = createContext<NavCtx>({
-  navigate: () => {},
-  isTransitioning: false,
-});
+interface TransitionCtx {
+  phase: TransitionPhase;
+  origin: { x: number; y: number };
+}
+
+const NavContext = createContext<NavCtx>({ navigate: () => {}, isTransitioning: false });
+const TransitionContext = createContext<TransitionCtx>({ phase: 'idle', origin: { x: 0, y: 0 } });
 
 export const useNav = () => useContext(NavContext);
+export const usePageTransition = () => useContext(TransitionContext);
 
-// ─── Transition Context ──────────────────────────────────
-interface TransitionCtx {
-  active: boolean;
-  origin: { x: number; y: number };
-  phase: 'idle' | 'expanding' | 'hold' | 'contracting';
-}
+// ─── Provider ────────────────────────────────────────────
 
-const TransitionContext = createContext<TransitionCtx>({
-  active: false,
-  origin: { x: 0, y: 0 },
-  phase: 'idle',
-});
+const EXPAND_MS = 450;
+const HOLD_MS = 120;
+const CONTRACT_MS = 420;
 
-export const useTransition = () => useContext(TransitionContext);
-
-// ─── Layout Provider ─────────────────────────────────────
-interface V2LayoutProviderProps {
-  children: ReactNode;
-}
-
-export function V2LayoutProvider({ children }: V2LayoutProviderProps) {
+export function V2LayoutProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Mouse state
-  const [mouse, setMouse] = useState<MouseCtx>({
-    x: 0,
-    y: 0,
-    normalized: { x: 0.5, y: 0.5 },
-  });
+  const mouseRef = useRef<MousePosition>({ x: 0, y: 0, nx: 0.5, ny: 0.5 });
 
-  // Transition state
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionOrigin, setTransitionOrigin] = useState({ x: 0, y: 0 });
-  const [transitionPhase, setTransitionPhase] = useState<'idle' | 'expanding' | 'hold' | 'contracting'>('idle');
-  const [pendingRoute, setPendingRoute] = useState<string | null>(null);
+  const [phase, setPhase] = useState<TransitionPhase>('idle');
+  const [origin, setOrigin] = useState({ x: 0, y: 0 });
+  const transitioningRef = useRef(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // Track mouse position
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      setMouse({
-        x: e.clientX,
-        y: e.clientY,
-        normalized: {
-          x: e.clientX / window.innerWidth,
-          y: 1 - e.clientY / window.innerHeight, // flip Y for GL coords
-        },
-      });
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
+      mouseRef.current.nx = e.clientX / window.innerWidth;
+      mouseRef.current.ny = 1 - e.clientY / window.innerHeight;
     };
-    window.addEventListener('mousemove', handler);
+    window.addEventListener('mousemove', handler, { passive: true });
     return () => window.removeEventListener('mousemove', handler);
   }, []);
 
-  // Navigation function - captures click position for transition origin
-  const navigate = useCallback((href: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    if (pathname === href || isTransitioning) return;
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
-    // Capture click position
-    setTransitionOrigin({ x: e.clientX, y: e.clientY });
-    setPendingRoute(href);
-    setIsTransitioning(true);
-    setTransitionPhase('expanding');
+  const navigate = useCallback(
+    (href: string, e: React.MouseEvent) => {
+      e.preventDefault();
+      if (pathname === href || transitioningRef.current) return;
 
-    // Phase 1: Circle expands from click point
-    setTimeout(() => {
-      setTransitionPhase('hold');
-      // Actually navigate
-      router.push(href);
-    }, 450);
+      transitioningRef.current = true;
+      setOrigin({ x: e.clientX, y: e.clientY });
+      setPhase('expanding');
 
-    // Phase 2: Circle contracts to reveal new page
-    setTimeout(() => {
-      setTransitionPhase('contracting');
-    }, 550);
-
-    setTimeout(() => {
-      setTransitionPhase('idle');
-      setIsTransitioning(false);
-      setPendingRoute(null);
-    }, 950);
-  }, [pathname, isTransitioning, router]);
+      timersRef.current.push(
+        setTimeout(() => {
+          setPhase('hold');
+          router.push(href);
+        }, EXPAND_MS),
+        setTimeout(() => {
+          setPhase('contracting');
+        }, EXPAND_MS + HOLD_MS),
+        setTimeout(() => {
+          setPhase('idle');
+          transitioningRef.current = false;
+        }, EXPAND_MS + HOLD_MS + CONTRACT_MS)
+      );
+    },
+    [pathname, router]
+  );
 
   return (
-    <MouseContext.Provider value={mouse}>
-      <NavContext.Provider value={{ navigate, isTransitioning }}>
-        <TransitionContext.Provider
-          value={{
-            active: isTransitioning,
-            origin: transitionOrigin,
-            phase: transitionPhase,
-          }}
-        >
+    <MouseRefContext.Provider value={mouseRef}>
+      <NavContext.Provider value={{ navigate, isTransitioning: phase !== 'idle' }}>
+        <TransitionContext.Provider value={{ phase, origin }}>
           {children}
         </TransitionContext.Provider>
       </NavContext.Provider>
-    </MouseContext.Provider>
+    </MouseRefContext.Provider>
   );
 }

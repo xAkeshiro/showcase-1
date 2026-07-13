@@ -1,14 +1,20 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { useMouse } from './V2LayoutProvider';
+import { useMouseRef } from './V2LayoutProvider';
+
+// Liquid metaball field. Initialized exactly once per mount — mouse input
+// is read from a shared ref inside the render loop, so cursor movement
+// never re-renders React or re-creates the WebGL context (the source of
+// the flicker in the previous build). Rendering pauses when offscreen.
 
 interface MetaballCanvasProps {
   className?: string;
   style?: React.CSSProperties;
-  blobColor?: string; // hex color for blobs
-  bgColor?: string; // hex color for background
+  blobColor?: string;
+  bgColor?: string;
+  accent?: string; // edge tint
   opacity?: number;
 }
 
@@ -29,8 +35,8 @@ const fragmentShader = `
   uniform vec2 uResolution;
   uniform vec3 uBlobColor;
   uniform vec3 uBgColor;
+  uniform vec3 uAccent;
 
-  // Simplex 2D noise
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
@@ -66,90 +72,62 @@ const fragmentShader = `
   void main() {
     vec2 uv = vUv;
     vec2 p = (uv - 0.5) * 2.0;
-    p.x *= uResolution.x / uResolution.y;
+    float aspect = uResolution.x / uResolution.y;
+    p.x *= aspect;
 
-    float t = uTime * 0.4;
+    float t = uTime * 0.35;
 
-    // Mouse in same coordinate space
     vec2 mouse = (uMouse - 0.5) * 2.0;
-    mouse.x *= uResolution.x / uResolution.y;
+    mouse.x *= aspect;
 
-    // Metaball field - slow, heavy, liquid movements
+    // Slow, heavy, liquid movement
     float field = 0.0;
-
-    // 5 autonomous blobs with different frequencies
     field += metaball(p, vec2(sin(t * 0.7) * 0.8, cos(t * 0.5) * 0.6), 0.14);
     field += metaball(p, vec2(cos(t * 0.4) * 0.7, sin(t * 0.8) * 0.7), 0.12);
     field += metaball(p, vec2(sin(t * 0.3 + 2.0) * 0.9, cos(t * 0.6 + 1.0) * 0.5), 0.16);
     field += metaball(p, vec2(cos(t * 0.5 + 3.0) * 0.6, sin(t * 0.4 + 2.0) * 0.8), 0.13);
-    field += metaball(p, vec2(sin(t * 0.6) * 0.5, cos(t * 0.35) * 0.9), 0.11);
+    field += metaball(p, vec2(sin(t * 0.6 + 4.0) * 0.5, cos(t * 0.35 + 3.0) * 0.9), 0.10);
+    field += metaball(p, mouse * 0.8, 0.09);
 
-    // Mouse-reactive blob (slightly influenced by autonomous movement too)
-    vec2 mouseBlob = mouse * 0.8 + vec2(sin(t * 0.2) * 0.1, cos(t * 0.15) * 0.1);
-    field += metaball(p, mouseBlob, 0.10);
+    field += snoise(p * 2.0 + t * 0.3) * 0.14;
 
-    // Noise distortion for organic wobble
-    field += snoise(p * 2.0 + t * 0.3) * 0.15;
+    float blob = smoothstep(0.95, 1.06, field);
+    float edge = smoothstep(0.84, 0.95, field) - blob;
 
-    // Threshold into sharp blobs
-    float blob = smoothstep(0.95, 1.05, field);
-
-    // Edge glow
-    float edge = smoothstep(0.85, 0.95, field) - blob;
-
-    // Color the output
     vec3 col = mix(uBgColor, uBlobColor, blob);
-
-    // Add edge highlight
-    vec3 edgeColor = mix(uBlobColor, uBgColor, 0.3);
-    col += edgeColor * edge * 0.5;
-
-    // Subtle film grain (reduced)
-    float grain = (fract(sin(dot(uv * uTime, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.008;
-    col += grain;
+    col += uAccent * edge * 0.35;
 
     gl_FragColor = vec4(col, 1.0);
   }
 `;
 
 function hexToVec3(hex: string): THREE.Vector3 {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (result) {
-    return new THREE.Vector3(
-      parseInt(result[1], 16) / 255,
-      parseInt(result[2], 16) / 255,
-      parseInt(result[3], 16) / 255
-    );
-  }
-  return new THREE.Vector3(0, 0, 0);
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return m
+    ? new THREE.Vector3(parseInt(m[1], 16) / 255, parseInt(m[2], 16) / 255, parseInt(m[3], 16) / 255)
+    : new THREE.Vector3(0, 0, 0);
 }
 
 export function MetaballCanvas({
   className = '',
   style,
-  blobColor = '#1a1a1a',
-  bgColor = '#0a0a0a',
+  blobColor = '#111116',
+  bgColor = '#050505',
+  accent = '#0000ff',
   opacity = 1,
 }: MetaballCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useMouse();
-  const smoothMouse = useRef({ x: 0.5, y: 0.5 });
-  const rafRef = useRef<number>(0);
+  const mouseRef = useMouseRef();
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'low-power' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
     const geometry = new THREE.PlaneGeometry(2, 2);
     const material = new THREE.ShaderMaterial({
       vertexShader,
@@ -160,13 +138,15 @@ export function MetaballCanvas({
         uResolution: { value: new THREE.Vector2(800, 600) },
         uBlobColor: { value: hexToVec3(blobColor) },
         uBgColor: { value: hexToVec3(bgColor) },
+        uAccent: { value: hexToVec3(accent) },
       },
     });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    scene.add(new THREE.Mesh(geometry, material));
 
     const clock = new THREE.Clock();
+    const smooth = { x: 0.5, y: 0.5 };
+    let visible = true;
+    let raf = 0;
 
     const resize = () => {
       const parent = canvas.parentElement;
@@ -178,27 +158,37 @@ export function MetaballCanvas({
     resize();
     window.addEventListener('resize', resize);
 
-    const animate = () => {
-      // Smooth mouse lerp (~200ms lag feel)
-      smoothMouse.current.x += (mouse.normalized.x - smoothMouse.current.x) * 0.05;
-      smoothMouse.current.y += (mouse.normalized.y - smoothMouse.current.y) * 0.05;
+    // Pause rendering entirely while offscreen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      if (!visible) return;
+
+      smooth.x += (mouseRef.current.nx - smooth.x) * 0.05;
+      smooth.y += (mouseRef.current.ny - smooth.y) * 0.05;
 
       material.uniforms.uTime.value = clock.getElapsedTime();
-      material.uniforms.uMouse.value.set(smoothMouse.current.x, smoothMouse.current.y);
-
+      material.uniforms.uMouse.value.set(smooth.x, smooth.y);
       renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(animate);
     };
-    rafRef.current = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(tick);
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(raf);
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       geometry.dispose();
       material.dispose();
       renderer.dispose();
     };
-  }, [blobColor, bgColor, mouse.normalized.x, mouse.normalized.y]);
+  }, [blobColor, bgColor, accent, mouseRef]);
 
   return (
     <canvas
